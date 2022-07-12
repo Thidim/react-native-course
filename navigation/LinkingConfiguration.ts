@@ -30,9 +30,14 @@ const linking: LinkingOptions<RootStackParamList> = {
               ForgotPassword: 'ForgotPassword',
             },
           },
-          ResetPassword: {
+          NewPassword: {
             screens: {
-              ResetPassword: 'ResetPassword',
+              NewPassword: 'NewPassword',
+            },
+          },
+          ConfirmEmail: {
+            screens: {
+              ConfirmEmail: 'ConfirmEmail',
             },
           },
         },

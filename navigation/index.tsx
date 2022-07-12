@@ -12,13 +12,14 @@ import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import ResetPassword from '../screens/ResetPassword';
-import NotFoundScreen from '../screens/NotFoundScreen';
-import LogIn from '../screens/LogIn';
-import SignUp from '../screens/SignUp';
+import NewPassword from '../screens/Password/NewPassword';
+import NotFoundScreen from '../screens/NotFoundScreen/';
+import LogIn from '../screens/Authentification/LogIn';
+import SignUp from '../screens/Authentification/SignUp';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import ForgotPassword from '../screens/ForgotPassword';
+import ForgotPassword from '../screens/Password/ForgotPassword';
+import ConfirmEmail from '../screens/ConfirmEmail/';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -31,8 +32,8 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 }
 
 /**
- * A root stack navigator is often used for displaying ResetPasswords on top of all other content.
- * https://reactnavigation.org/docs/ResetPassword
+ * A root stack navigator is often used for displaying NewPasswords on top of all other content.
+ * https://reactnavigation.org/docs/NewPassword
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -42,8 +43,9 @@ function RootNavigator() {
       <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false }} />
       <Stack.Screen name="Signup" component={SignUp} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Screen name="ResetPassword" component={ResetPassword} options={{ headerShown: false }} />
+      <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
+      <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
@@ -71,7 +73,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('ResetPassword')}
+              onPress={() => navigation.navigate('NewPassword')}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
