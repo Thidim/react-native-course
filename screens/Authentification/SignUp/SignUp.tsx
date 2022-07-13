@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { Auth } from 'aws-amplify';
+import { Auth, DataStore } from 'aws-amplify';
 import { FieldValues, useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
 import CustomButton from '../../../components/CustomButton';
@@ -7,6 +7,8 @@ import CustomInput from '../../../components/CustomInput';
 
 import { View } from '../../../components/Themed';
 import globalStyles from '../../../constants/Styles';
+import { UserModelBase } from '../../../constants/User';
+import { User } from '../../../models';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -16,6 +18,11 @@ const SignUp = () => {
   const { control, handleSubmit, watch } = useForm();
   const passw = watch('password');
 
+  const createUser = async (values: User) => (
+    console.log(values)
+    // await DataStore.save(new User({ ...values }))
+  )
+  
   const signup = async (data: FieldValues) => {
     const {username, password, email, name} = data;
     try {
@@ -28,6 +35,12 @@ const SignUp = () => {
           type: 'info',
           text1: res.toString(),
         });
+        createUser({
+          ...UserModelBase,
+          username,
+          email,
+          fullname: name,
+        })
         navigation.navigate('ConfirmEmail');
       });
     } catch (error: any) {

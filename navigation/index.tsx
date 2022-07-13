@@ -16,17 +16,23 @@ import NewPassword from '../screens/Password/NewPassword';
 import NotFoundScreen from '../screens/NotFoundScreen/';
 import LogIn from '../screens/Authentification/LogIn';
 import SignUp from '../screens/Authentification/SignUp';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../constants/types';
 import LinkingConfiguration from './LinkingConfiguration';
 import ForgotPassword from '../screens/Password/ForgotPassword';
 import ConfirmEmail from '../screens/ConfirmEmail/';
+import Header from '../components/Header';
+import UserContextProvider, { UserContext } from '../contexts/UserContext';
+import Home from '../screens/App/Home';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
+        <UserContextProvider>
+          <Header />
+          <RootNavigator />
+      </UserContextProvider>
     </NavigationContainer>
   );
 }
@@ -38,14 +44,24 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const { connected } = React.useContext(UserContext)
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false }} />
-      <Stack.Screen name="Signup" component={SignUp} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
-      <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{ headerShown: false }} />
+      {connected ? (
+        <Stack.Group>
+          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+          <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+          <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
+          <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{ headerShown: false }} />
+        </Stack.Group>
+      ) : (
+        <Stack.Group>
+          <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false }} />
+          <Stack.Screen name="Signup" component={SignUp} options={{ headerShown: false }} /> 
+        </Stack.Group>
+      )
+    }
     </Stack.Navigator>
   );
 }

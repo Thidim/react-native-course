@@ -1,13 +1,16 @@
 import { Pressable, StyleSheet, Text } from "react-native";
+import globalStyles from '../constants/Styles';
 
-const CustomButton = ({ value, submit, type = "primary" }:
-    { value: string, submit: () => void, type?: string }) => {
+const CustomButton = ({ value, submit, type = "primary", size = 'is_full' }:
+    { value: string, submit: () => void, type?: string, size?: string }) => {
     return (
         <Pressable
             onPress={submit}
-            style={
-                type === "primary" ? styles.button_primary : styles.button_secondary
-            }
+            style={[
+                globalStyles[size],
+                styles.button,
+                type === "primary" ? styles.button_primary : styles.button
+            ]}
         >
             <Text style={
                 type === "primary" ? styles.text_primary : styles.text_secondary
@@ -22,20 +25,16 @@ const CustomButton = ({ value, submit, type = "primary" }:
 export default CustomButton;
 
 const styles = StyleSheet.create({
-    button_primary: {
-        backgroundColor: '#3B71F3',
-        width: '100%',
+    button: {
+        // width: '100%',
+        // maxWidth: 150,
         padding: 15,
         marginVertical: 5,
         alignItems: 'center',
         borderRadius: 5,
     },
-    button_secondary: {
-        width: '100%',
-        padding: 15,
-        marginVertical: 5,
-        alignItems: 'center',
-        borderRadius: 5,
+    button_primary: {
+        backgroundColor: '#3B71F3',
     },
     text_primary: {
         fontWeight: 'bold',
