@@ -29,7 +29,7 @@ export default CustomButton;
 const styles: any = StyleSheet.create({
     button: {
         padding: 15,
-        marginVertical: 5,
+        margin: 5,
         alignItems: 'center',
         display: 'flex',
         flexDirection: 'row',
@@ -38,6 +38,10 @@ const styles: any = StyleSheet.create({
     },
     button_primary: {
         backgroundColor: '#3B71F3',
+    },
+    button_editing: {
+        borderWidth: 1,
+        border: '1px solid black',
     },
     text: {
         flex: 1,

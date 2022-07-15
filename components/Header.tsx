@@ -1,12 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
 import { useContext, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 import CustomButton from "./CustomButton";
 import ModalMenu from "./ModalMenu";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCogs, faRightToBracket, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronUp, faCogs, faHome, faRightToBracket, faUser, faUserGear } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
     const { user, connected, logOut } = useContext(UserContext);
@@ -15,6 +15,13 @@ const Header = () => {
 
     return (
         <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                <FontAwesomeIcon
+                    style={{ margin: 'auto' }}
+                    size={30}
+                    icon={faHome}
+                />
+            </TouchableOpacity>
             <View style={styles.connection}>
                 {connected ? (
                     <>
@@ -23,7 +30,9 @@ const Header = () => {
                                 value={`Welcome, ${user.username}`}
                                 submit={() => setShow(!show)}
                                 type={'secondary'}
-                            />
+                            >
+                                <FontAwesomeIcon icon={ show ? faChevronUp : faChevronDown } />
+                            </CustomButton>
                         </View>
                         <ModalMenu show={show} >
                             <CustomButton
@@ -84,12 +93,15 @@ const styles = StyleSheet.create({
     header: {
         padding: 10,
         display: 'flex',
+        flexDirection: 'row',
         backgroundColor: 'white',
-        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+        // alignItems: 'flex-end',
         zIndex: 1
     },
     connection: {
         width: 300,
+        flex: 1,
         display: 'flex',
         backgroundColor: 'inherit',
         flexDirection: 'row',

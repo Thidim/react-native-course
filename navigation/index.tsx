@@ -50,11 +50,11 @@ function RootNavigator() {
     <Stack.Navigator>
       {connected ? (
         <Stack.Group>
-          <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+          <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+          <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
           <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
           <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
-          <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
         </Stack.Group>
       ) : (
         <Stack.Group>
