@@ -1,12 +1,15 @@
 import { StyleSheet } from "react-native";
 
-const styles: any = StyleSheet.create({
+const globalStyles: any = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
         margin: 'auto',
         justifyContent: 'center',
         width: 300,
+    },
+    is_min: {
+        width: 'fit-content'
     },
     is_half: {
         width: '50%',
@@ -16,4 +19,4 @@ const styles: any = StyleSheet.create({
     }
 });
 
-export default styles;
+export default globalStyles;

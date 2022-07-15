@@ -5,7 +5,7 @@
  */
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
@@ -23,12 +23,13 @@ import ConfirmEmail from '../screens/ConfirmEmail/';
 import Header from '../components/Header';
 import UserContextProvider, { UserContext } from '../contexts/UserContext';
 import Home from '../screens/App/Home';
+import Settings from '../screens/App/Settings';
+import Profile from '../screens/App/Profile';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      linking={LinkingConfiguration}>
         <UserContextProvider>
           <Header />
           <RootNavigator />
@@ -49,16 +50,18 @@ function RootNavigator() {
     <Stack.Navigator>
       {connected ? (
         <Stack.Group>
+          <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
           <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
           <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
-          <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{ headerShown: false }} />
+          <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
         </Stack.Group>
       ) : (
         <Stack.Group>
           <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false }} />
           <Stack.Screen name="Signup" component={SignUp} options={{ headerShown: false }} /> 
+          <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{ headerShown: false }} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
         </Stack.Group>
       )
     }

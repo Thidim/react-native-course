@@ -4,7 +4,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import Toast from "react-native-toast-message";
 import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
-import { View } from "../../components/Themed";
+import { View } from 'react-native';
 import globalStyles from '../../constants/Styles';
 
 const ConfirmEmail = () => {

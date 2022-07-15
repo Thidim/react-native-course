@@ -1,34 +1,62 @@
 import { useNavigation } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
-import { useContext, useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { useContext, useState } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 import CustomButton from "./CustomButton";
-import { Text, View } from "./Themed";
+import ModalMenu from "./ModalMenu";
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faCogs, faRightToBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
     const { user, connected, logOut } = useContext(UserContext);
+    const [show, setShow] = useState<Boolean>(false);
     const navigation = useNavigation();
-    
+
     return (
         <View style={styles.header}>
             <View style={styles.connection}>
                 {connected ? (
                     <>
-
-                        <View><Text style={styles.welcome}>Welcome, {user?.username}</Text></View>
-                        <CustomButton
-                            value="Log out"
-                            submit={ async () => {
-                                await Auth.signOut().then(() => {
-                                    console.warn('log out');
-                                    logOut();
-                                });
-                                navigation.navigate('Login');
-                            }}
-                            type="secondary"
-                            size="is_half"
-                        />
+                        <View>
+                            <CustomButton
+                                value={`Welcome, ${user.username}`}
+                                submit={() => setShow(!show)}
+                                type={'secondary'}
+                            />
+                        </View>
+                        <ModalMenu show={show} >
+                            <CustomButton
+                                value="Profile"
+                                submit={() => {
+                                    setShow(!show)
+                                    navigation.navigate('Profile')
+                                }}
+                                type="secondary"
+                            >
+                                <FontAwesomeIcon icon={faUser} />
+                            </CustomButton>
+                            <CustomButton
+                                value="Settings"
+                                submit={() => {
+                                    setShow(!show)
+                                    navigation.navigate('Settings')
+                                }}
+                                type="secondary"
+                            >
+                                <FontAwesomeIcon icon={faCogs} />
+                            </CustomButton>
+                            <CustomButton
+                                value="Log out"
+                                submit={() => {
+                                    setShow(!show)
+                                    logOut
+                                }}
+                                type="tertiary"
+                            >
+                                <FontAwesomeIcon icon={faRightToBracket} />
+                            </CustomButton>
+                        </ModalMenu>
                     </>
                 ) : (
                     <>
@@ -56,13 +84,16 @@ const styles = StyleSheet.create({
     header: {
         padding: 10,
         display: 'flex',
+        backgroundColor: 'white',
         alignItems: 'flex-end',
+        zIndex: 1
     },
     connection: {
         width: 300,
         display: 'flex',
+        backgroundColor: 'inherit',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
     },
     welcome: {
         margin: 'auto'

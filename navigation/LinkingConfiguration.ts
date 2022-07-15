@@ -20,6 +20,16 @@ const linking: LinkingOptions<RootStackParamList> = {
               Home: 'Home',
             },
           },
+          Settings: {
+            screens: {
+              Settings: 'Settings',
+            },
+          },
+          Profile: {
+            screens: {
+              Profile: 'Profile',
+            },
+          },
           Login: {
             screens: {
               LogIn: 'Login',

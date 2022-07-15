@@ -8,4 +8,5 @@ export const UserModelBase: User = {
     username: '',
     settings: SettingsModelBase,
     confirmedEmail: false,
+    userSettingsId: ''
 }

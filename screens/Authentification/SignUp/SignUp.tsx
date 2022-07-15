@@ -5,10 +5,11 @@ import Toast from 'react-native-toast-message';
 import CustomButton from '../../../components/CustomButton';
 import CustomInput from '../../../components/CustomInput';
 
-import { View } from '../../../components/Themed';
+import { View } from 'react-native';
+import { SettingsModelBase } from '../../../constants/Settings';
 import globalStyles from '../../../constants/Styles';
 import { UserModelBase } from '../../../constants/User';
-import { User } from '../../../models';
+import { Settings, User } from '../../../models';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -18,11 +19,6 @@ const SignUp = () => {
   const { control, handleSubmit, watch } = useForm();
   const passw = watch('password');
 
-  const createUser = async (values: User) => (
-    console.log(values)
-    // await DataStore.save(new User({ ...values }))
-  )
-  
   const signup = async (data: FieldValues) => {
     const {username, password, email, name} = data;
     try {
@@ -30,17 +26,15 @@ const SignUp = () => {
         username,
         password,
         attributes: {email, name, preferred_username: username},
-      }).then((res) => {
-        Toast.show({
-          type: 'info',
-          text1: res.toString(),
-        });
-        createUser({
+      }).then(async () => {
+        const settings = await DataStore.save(new Settings({ ...SettingsModelBase }));
+        await DataStore.save(new User({
           ...UserModelBase,
           username,
           email,
           fullname: name,
-        })
+          settings: settings
+        }));
         navigation.navigate('ConfirmEmail');
       });
     } catch (error: any) {

@@ -1,34 +1,22 @@
 import { useNavigation } from '@react-navigation/native';
 import { CognitoUser } from 'amazon-cognito-identity-js';
-import { Auth } from 'aws-amplify';
+import { Auth, DataStore } from 'aws-amplify';
 import { useContext } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
 import CustomButton from '../../../components/CustomButton';
 import CustomInput from '../../../components/CustomInput';
 
-import { View } from '../../../components/Themed';
+import { View } from 'react-native';
 import globalStyles from '../../../constants/Styles';
 import { UserContext } from '../../../contexts/UserContext';
+import { User } from '../../../models';
 
 const LogIn = () => {
   const navigation = useNavigation();
   const { control, handleSubmit, formState:{errors} } = useForm();
   const { logIn } = useContext(UserContext);
 
-  const login = async (data: FieldValues) => {
-    try {
-      const resp: CognitoUser = await Auth.signIn(data.username, data.password);
-      logIn(resp);
-      navigation.navigate('Home');
-    } catch (error: any) {
-      console.warn(error.message);
-      Toast.show({
-        type: 'error',
-        text1: error.message.toString(),
-      })
-    }
-  }
   const forgotPassword = () => {
     console.warn("Forgot");
     navigation.navigate('ForgotPassword');
@@ -66,7 +54,7 @@ const LogIn = () => {
       <Toast />
       <CustomButton
         value={"Log in"}
-        submit={handleSubmit(login)}
+        submit={handleSubmit(logIn)}
       />
       <CustomButton
         value={"Forgot your password ?"}

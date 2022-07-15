@@ -2,12 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
 import React from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-import { StyleSheet } from 'react-native';
 import Toast from 'react-native-toast-message';
 import CustomButton from '../../../components/CustomButton';
 import CustomInput from '../../../components/CustomInput';
 
-import { Text, View } from '../../../components/Themed';
+import { Text, View } from 'react-native';
 import globalStyles from '../../../constants/Styles';
 
 const NewPassword = () => {
