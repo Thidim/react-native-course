@@ -4,6 +4,7 @@ import { StyleSheet, TextInput, Text, View } from 'react-native';
 const CustomInput = ({
     control,
     name,
+    value,
     rules = {},
     placeholder,
     secureTextEntry,
@@ -12,13 +13,15 @@ const CustomInput = ({
     control: Control<FieldValues, object>,
     name: string,
     rules?: object,
-    placeholder?: string | null,
+    placeholder?: string,
     secureTextEntry?: boolean,
+    value?: string | null,
     editable?: boolean
   }) => {
     return (
       <Controller
         control={control}
+        defaultValue={value}
         name={name}
         rules={rules}
         render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
@@ -52,7 +55,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         width: '100%',
-        height: 40,
+        maxHeight: 40,
         flex:1,
         borderColor: '#e8e8e8',
         borderWidth: 1,

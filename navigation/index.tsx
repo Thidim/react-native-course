@@ -25,15 +25,18 @@ import UserContextProvider, { UserContext } from '../contexts/UserContext';
 import Home from '../screens/App/Home';
 import Settings from '../screens/App/Settings';
 import Profile from '../screens/App/Profile';
+import SettingsContextProvider from '../contexts/SettingsContext';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}>
+      <SettingsContextProvider>
         <UserContextProvider>
           <Header />
           <RootNavigator />
-      </UserContextProvider>
+        </UserContextProvider>
+      </SettingsContextProvider>
     </NavigationContainer>
   );
 }
@@ -59,12 +62,12 @@ function RootNavigator() {
       ) : (
         <Stack.Group>
           <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false }} />
-          <Stack.Screen name="Signup" component={SignUp} options={{ headerShown: false }} /> 
+          <Stack.Screen name="Signup" component={SignUp} options={{ headerShown: false }} />
           <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{ headerShown: false }} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
         </Stack.Group>
       )
-    }
+      }
     </Stack.Navigator>
   );
 }

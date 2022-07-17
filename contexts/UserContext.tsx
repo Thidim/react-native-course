@@ -1,7 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import { CognitoUser } from "amazon-cognito-identity-js";
 import { Auth, DataStore } from "aws-amplify";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import Toast from "react-native-toast-message";
 import { UserModelBase } from "../constants/User";
@@ -10,7 +9,8 @@ import { User } from "../models";
 interface defaultUserContext {
     user: User;
     connected: Boolean;
-    updateUser: (data: User) => void;
+    updateUser: ({ fullname, email, username }:
+        { fullname: string, email: string, username: string }) => void;
     logIn: (data: FieldValues) => void;
     logOut: () => void;
 };
@@ -30,15 +30,47 @@ const UserContextProvider = ({ children }: { children: any }) => {
     const [connected, setConnected] = useState<Boolean>(defaultState.connected);
     const navigation = useNavigation();
 
-    const updateUser = async (data: User) => {
-        const users = (await DataStore.query(User))
-            .filter((u) => u.username !== data.username);
-        setConnected(true);
-        console.log(users[0]);
-        setUser({
-            ...UserModelBase,
-            ...users[0],
-        });
+    const updateUser = async ({ fullname, email, username }:
+        { fullname: string, email: string, username: string }) => {
+        try {
+            const users = await DataStore.query(User, (u) => u.email('eq', email));
+            const newUser = await DataStore.save(
+                User.copyOf(users[0], updated => {
+                    updated.fullname = fullname,
+                        updated.email = email,
+                        updated.confirmedEmail = user.confirmedEmail,
+                        updated.username = username
+                })
+            )
+            setUser(newUser);
+            console.log('Profile Updated');
+            Toast.show({
+                type: 'info',
+                text1: 'Profile Updated successfully',
+            })
+        } catch (error: any) {
+            console.warn(error.message);
+            Toast.show({
+                type: 'error',
+                text1: error.message.toString(),
+            })
+        }
+    }
+
+    const checkUser = async () => {
+        try {
+            const cognito = await Auth.currentAuthenticatedUser();
+            const queryUsers = (await DataStore.query(User))
+            .filter(u => u.username !== cognito.username);
+            setConnected(true);
+            setUser({
+                ...UserModelBase,
+                ...queryUsers[0]
+            });
+        } catch (error: any) {
+            console.warn(error);
+            navigation.navigate('Login');
+        }
     }
 
     const logIn = async (data: FieldValues) => {
@@ -77,21 +109,7 @@ const UserContextProvider = ({ children }: { children: any }) => {
     }
 
     useEffect(() => {
-        const one = async () => {
-            try {
-                await Auth.currentAuthenticatedUser()
-                    .then((res: CognitoUser) => {
-                        updateUser({
-                            ...UserModelBase,
-                            ...res,
-                        });
-                    });
-            } catch (error: any) {
-                console.warn(error);
-                navigation.navigate('Login');
-            }
-        }
-        one();
+        checkUser();
     }, []);
 
 
@@ -99,6 +117,7 @@ const UserContextProvider = ({ children }: { children: any }) => {
         <UserContext.Provider value={{
             user, connected, updateUser, logIn, logOut
         }}>
+            <Toast />
             {children}
         </UserContext.Provider>
     );

@@ -1,8 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import { CognitoUser } from 'amazon-cognito-identity-js';
-import { Auth, DataStore } from 'aws-amplify';
 import { useContext } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
 import CustomButton from '../../../components/CustomButton';
 import CustomInput from '../../../components/CustomInput';
@@ -10,7 +8,6 @@ import CustomInput from '../../../components/CustomInput';
 import { View } from 'react-native';
 import globalStyles from '../../../constants/Styles';
 import { UserContext } from '../../../contexts/UserContext';
-import { User } from '../../../models';
 
 const LogIn = () => {
   const navigation = useNavigation();

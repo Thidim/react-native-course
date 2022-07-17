@@ -2,6 +2,6 @@ import { Settings } from "../models";
 
 export const SettingsModelBase: Settings = {
     id: '',
-    theme: true,
+    theme: false,
     language: 'en',
 }

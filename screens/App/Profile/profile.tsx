@@ -1,23 +1,38 @@
 import { faCircleCheck, faCircleXmark, faL } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { useContext, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import React, { useContext, useState } from "react";
+import { FieldValues, set, useForm } from "react-hook-form";
 import { StyleSheet, Text, View } from "react-native";
 import CustomButton from "../../../components/CustomButton";
 import CustomInput from "../../../components/CustomInput";
+import Toast from 'react-native-toast-message';
 import globalStyles from "../../../constants/Styles";
 import { UserContext } from "../../../contexts/UserContext";
 
 const Profile = () => {
-    const { user } = useContext(UserContext);
+    const { user, updateUser } = useContext(UserContext);
     const [editable, setEdit] = useState<boolean>(false);
     const { control, handleSubmit } = useForm();
+
+    const updateProfile = (data: FieldValues) => {
+        setEdit(!editable);
+        updateUser({
+            fullname: data.name,
+            email: data.email,
+            username: data.username
+        });
+        Toast.show({
+            type: 'info',
+            text1: 'Profile successfully updated'
+        })
+    }
 
     return (
         <View style={[
             globalStyles.container,
             styles.profile
         ]}>
+            <Toast />
             <View style={styles.profile_header}>
                 <Text style={styles.profile_header_text}>Profile</Text>
                 {!editable && (
@@ -31,26 +46,29 @@ const Profile = () => {
             </View>
             <View style={styles.profile_data}>
                 <CustomInput
-                    name={'Full name'}
+                    value={user.fullname}
+                    name={'name'}
                     control={control}
-                    placeholder={user.fullname}
+                    placeholder={'Full name'}
                     editable={editable}
                 />
                 <CustomInput
-                    name={'Username'}
+                    name={'username'}
                     control={control}
-                    placeholder={user.username}
+                    placeholder={'Username'}
                     editable={editable}
+                    value={user.username}
                 />
                 <View style={styles.email_info}>
                     <CustomInput
-                        name={'Email'}
+                        name={'email'}
                         control={control}
-                        placeholder={user.email}
+                        placeholder={'Email'}
                         editable={false}
+                        value={user.email}
                     />
                     <FontAwesomeIcon
-                        style={[styles.email_valid, user.confirmedEmail ? styles.yes : styles.no]}
+                        style={[styles.email_valid, user.confirmedEmail ? styles.yes : styles.no ]}
                         icon={user.confirmedEmail ? faCircleCheck : faCircleXmark} />
                 </View>
             </View>
@@ -59,7 +77,7 @@ const Profile = () => {
                     <>
                         <CustomButton
                             value={"Save"}
-                            submit={() => setEdit(!editable)}
+                            submit={handleSubmit(updateProfile)}
                             size={'is_min'}
                         />
                         <CustomButton

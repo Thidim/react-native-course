@@ -58,8 +58,8 @@ const Header = () => {
                             <CustomButton
                                 value="Log out"
                                 submit={() => {
+                                    logOut()
                                     setShow(!show)
-                                    logOut
                                 }}
                                 type="tertiary"
                             >
@@ -73,12 +73,12 @@ const Header = () => {
                             value="Log in"
                             submit={() => navigation.navigate('Login')}
                             type="secondary"
-                            size="is_half"
+                            size="is_min"
                         />
                         <CustomButton
                             value="Sign up"
                             submit={() => navigation.navigate('Signup')}
-                            size="is_half"
+                            size="is_min"
                         />
                     </>
                 )}

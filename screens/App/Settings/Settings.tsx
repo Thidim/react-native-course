@@ -1,30 +1,47 @@
-import { ReactChild, ReactFragment, ReactPortal, useContext, useState } from "react";
+import { ReactChild, ReactFragment, ReactPortal, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Image, StyleSheet, Switch, Text, View } from "react-native";
 import CustomButton from "../../../components/CustomButton";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import globalStyles from "../../../constants/Styles";
-import { UserContext } from "../../../contexts/UserContext";
 import SelectDropdown from "react-native-select-dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { SettingsContext } from "../../../contexts/SettingsContext";
+import { Country } from "../../../constants/Country";
+import Toast from "react-native-toast-message";
 
-const countriesWithFlags = [
-    { title: 'France', image: require('../../../assets/images/fr.png') },
-    { title: 'England', image: require('../../../assets/images/en.png') },
+const countriesWithFlags: Country[] = [
+    { id: 'fr', title: 'France', image: require('../../../assets/images/fr.png') },
+    { id: 'en', title: 'England', image: require('../../../assets/images/en.png') },
 ];
 
 const Settings = () => {
-    const { user } = useContext(UserContext);
+    const { settings, updateSettings } = useContext(SettingsContext);
     const [editable, setEdit] = useState<boolean>(false);
-    const { control, handleSubmit } = useForm();
-    const [isEnabled, setIsEnabled] = useState(false);
+    const [lang, setLang] = useState(settings.language);
+    const [isEnabled, setIsEnabled] = useState(settings.theme);
+
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+    const update  = () => {
+        updateSettings({
+            id: settings.id,
+            theme: isEnabled,
+            language: lang
+        });
+        Toast.show({
+            type: 'info',
+            text1: 'Settings successfully updated'
+        })
+    }
+
     return (
         <View style={[
             globalStyles.container,
             styles.settings
         ]}>
+            <Toast />
             <View style={styles.settings_header}>
                 <Text style={styles.settings_header_text}>Settings</Text>
                 {!editable && (
@@ -43,15 +60,18 @@ const Settings = () => {
                     </View>
                     <View style={[styles.theme_mode, globalStyles.is_full]}>
                         <Text style={styles[`light_${isEnabled}`]}>Light</Text>
+                        <Switch
+                            style={styles.switch}
+                            trackColor={{ false: "#767577", true: "#81b0ff" }}
+                            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                            onValueChange={() => {
+                                if (editable)
+                                    toggleSwitch()
+                            }}
+                            value={isEnabled}
+                        />
                         <Text style={styles[`dark_${isEnabled}`]}>Dark</Text>
                     </View>
-                    <Switch
-                        style={styles.switch}
-                        trackColor={{ false: "#767577", true: "#81b0ff" }}
-                        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                        onValueChange={toggleSwitch}
-                        value={isEnabled}
-                    />
                 </View>
                 <View style={[styles.lang, globalStyles.is_half]}>
                     <View style={globalStyles.is_full}>
@@ -60,26 +80,31 @@ const Settings = () => {
                     <View style={[styles.lang_selector, globalStyles.is_full]}>
                         <SelectDropdown
                             data={countriesWithFlags}
+                            defaultValue={lang === 'fr'
+                                ? { id: 'fr', title: 'France', image: require('../../../assets/images/fr.png') }
+                                : { id: 'en', title: 'England', image: require('../../../assets/images/en.png') }}
                             onSelect={(selectedItem: any, index: any) => {
                                 console.log(selectedItem, index);
+                                setLang(selectedItem.id);
                             }}
                             buttonStyle={styles.dropdown3BtnStyle}
-                            renderCustomizedButtonChild={(selectedItem: { image: any; title: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; }, index: any) => {
-                                return (
-                                    <View style={styles.dropdown3BtnChildStyle}>
-                                        {selectedItem ? (
-                                            <Image source={selectedItem.image} style={styles.dropdown3BtnImage} />
-                                        ) : (
-                                            <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
-                                        )}
-                                        <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select country'}</Text>
-                                        <FontAwesomeIcon icon={faChevronDown} />
-                                    </View>
-                                );
+                            renderCustomizedButtonChild={(selectedItem: { image: any; title: any; }, index: any) => {
+                                if (editable)
+                                    return (
+                                        <View style={styles.dropdown3BtnChildStyle}>
+                                            {selectedItem ? (
+                                                <Image source={selectedItem.image} style={styles.dropdown3BtnImage} />
+                                            ) : (
+                                                <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
+                                            )}
+                                            <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select country'}</Text>
+                                            <FontAwesomeIcon icon={faChevronDown} />
+                                        </View>
+                                    );
                             }}
                             dropdownStyle={styles.dropdown3DropdownStyle}
                             rowStyle={styles.dropdown3RowStyle}
-                            renderCustomizedRowChild={(item: { image: any; title: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; }, index: any) => {
+                            renderCustomizedRowChild={(item: { image: any; title: any; }, index: any) => {
                                 return (
                                     <View style={styles.dropdown3RowChildStyle}>
                                         <Image source={item.image} style={styles.dropdownRowImage} />
@@ -96,7 +121,10 @@ const Settings = () => {
                     <>
                         <CustomButton
                             value={"Save"}
-                            submit={() => setEdit(!editable)}
+                            submit={() => {
+                                setEdit(!editable);
+                                update();
+                            }}
                             size={'is_min'}
                         />
                         <CustomButton
@@ -153,7 +181,7 @@ const styles: any = StyleSheet.create({
         textAlign: 'center',
     },
     theme_mode: {
-        marginTop: 15,
+        marginTop: 35,
         marginBottom: 35,
         display: 'flex',
         flexDirection: 'row',
@@ -215,10 +243,10 @@ const styles: any = StyleSheet.create({
     },
     dropdownRowImage: { width: 33, height: 33, resizeMode: 'cover' },
     dropdown3RowTxt: {
-        color: '#F1F1F1',
+        color: 'black',
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 24,
+        fontSize: 15,
         marginHorizontal: 12,
     },
 });
