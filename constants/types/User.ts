@@ -1,4 +1,4 @@
-import { User } from "../models";
+import { User } from "../../models";
 import { SettingsModelBase } from "./Settings";
 
 export const UserModelBase: User = {

@@ -1,4 +1,4 @@
-import { Settings } from "../models";
+import { Settings } from "../../models";
 
 export const SettingsModelBase: Settings = {
     id: '',

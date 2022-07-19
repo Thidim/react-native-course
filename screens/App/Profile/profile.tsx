@@ -8,9 +8,11 @@ import CustomInput from "../../../components/CustomInput";
 import Toast from 'react-native-toast-message';
 import globalStyles from "../../../constants/Styles";
 import { UserContext } from "../../../contexts/UserContext";
+import { languageContext } from "../../../contexts/LanguageContext";
 
 const Profile = () => {
     const { user, updateUser } = useContext(UserContext);
+    const { t } = useContext(languageContext);
     const [editable, setEdit] = useState<boolean>(false);
     const { control, handleSubmit } = useForm();
 
@@ -23,7 +25,7 @@ const Profile = () => {
         });
         Toast.show({
             type: 'info',
-            text1: 'Profile successfully updated'
+            text1: t('profile.updated')
         })
     }
 
@@ -34,10 +36,10 @@ const Profile = () => {
         ]}>
             <Toast />
             <View style={styles.profile_header}>
-                <Text style={styles.profile_header_text}>Profile</Text>
+                <Text style={styles.profile_header_text}>{t('profile.title')}</Text>
                 {!editable && (
                     <CustomButton
-                        value="Edit"
+                        value={t("buttons.edit")}
                         submit={() => setEdit(!editable)}
                         size={'is_min'}
                     />
@@ -49,13 +51,13 @@ const Profile = () => {
                     value={user.fullname}
                     name={'name'}
                     control={control}
-                    placeholder={'Full name'}
+                    placeholder={t('fullname.title')}
                     editable={editable}
                 />
                 <CustomInput
                     name={'username'}
                     control={control}
-                    placeholder={'Username'}
+                    placeholder={t('username.title')}
                     editable={editable}
                     value={user.username}
                 />
@@ -63,7 +65,7 @@ const Profile = () => {
                     <CustomInput
                         name={'email'}
                         control={control}
-                        placeholder={'Email'}
+                        placeholder={t('email.title')}
                         editable={false}
                         value={user.email}
                     />
@@ -76,12 +78,12 @@ const Profile = () => {
                 {editable && (
                     <>
                         <CustomButton
-                            value={"Save"}
+                            value={t("buttons.save")}
                             submit={handleSubmit(updateProfile)}
                             size={'is_min'}
                         />
                         <CustomButton
-                            value={"Cancel"}
+                            value={t("buttons.cancel")}
                             submit={() => setEdit(!editable)}
                             type={'editing'}
                             size={'is_min'}

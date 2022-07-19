@@ -7,10 +7,12 @@ import CustomButton from "./CustomButton";
 import ModalMenu from "./ModalMenu";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronDown, faChevronUp, faCogs, faHome, faRightToBracket, faUser, faUserGear } from "@fortawesome/free-solid-svg-icons";
+import { languageContext } from "../contexts/LanguageContext";
 
 const Header = () => {
     const { user, connected, logOut } = useContext(UserContext);
     const [show, setShow] = useState<Boolean>(false);
+    const { t } = useContext(languageContext);
     const navigation = useNavigation();
 
     return (
@@ -27,7 +29,7 @@ const Header = () => {
                     <>
                         <View>
                             <CustomButton
-                                value={`Welcome, ${user.username}`}
+                                value={`${t('welcome')}, ${user.username}`}
                                 submit={() => setShow(!show)}
                                 type={'secondary'}
                             >
@@ -36,7 +38,7 @@ const Header = () => {
                         </View>
                         <ModalMenu show={show} >
                             <CustomButton
-                                value="Profile"
+                                value={t("profile.title")}
                                 submit={() => {
                                     setShow(!show)
                                     navigation.navigate('Profile')
@@ -46,7 +48,7 @@ const Header = () => {
                                 <FontAwesomeIcon icon={faUser} />
                             </CustomButton>
                             <CustomButton
-                                value="Settings"
+                                value={t("settings.title")}
                                 submit={() => {
                                     setShow(!show)
                                     navigation.navigate('Settings')
@@ -56,7 +58,7 @@ const Header = () => {
                                 <FontAwesomeIcon icon={faCogs} />
                             </CustomButton>
                             <CustomButton
-                                value="Log out"
+                                value={t("auth.logout")}
                                 submit={() => {
                                     logOut()
                                     setShow(!show)
@@ -70,13 +72,13 @@ const Header = () => {
                 ) : (
                     <>
                         <CustomButton
-                            value="Log in"
+                            value={t("auth.login")}
                             submit={() => navigation.navigate('Login')}
                             type="secondary"
                             size="is_min"
                         />
                         <CustomButton
-                            value="Sign up"
+                            value={t("auth.signup")}
                             submit={() => navigation.navigate('Signup')}
                             size="is_min"
                         />

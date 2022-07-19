@@ -1,0 +1,44 @@
+{
+    "auth": {
+        "login": "Log in",
+        "signup": "Sign up",
+        "logout": "Log out",
+        "forgot": "Forgot password ?",
+        "noaccount": "Don't have an account ?"
+    },
+    "fullname": {
+        "title": "Fullname",
+        "required": "Fullname required"
+    },
+    "username": {
+        "title": "Username",
+        "required": "Username required"
+    },
+    "email": {
+        "title": "Email",
+        "required": "Email required"
+    },
+    "password": {
+        "title": "Password",
+        "confirm": "Confirm password",
+        "required": "Password required"
+    },
+    "profile": {
+        "title": "Profile",
+        "updated": "Profile successfully updated !"
+    },
+    "settings": {
+        "title": "Settings",
+        "theme": "Theme",
+        "light": "Light",
+        "dark": "Dark",
+        "language": "Language",
+        "updated": "Settings successfully updated !"
+    },
+    "buttons": {
+        "edit": "Edit",
+        "save": "Save",
+        "cancel": "Cancel"
+    },
+    "welcome": "Hi"
+}

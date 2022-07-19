@@ -1,0 +1,44 @@
+{
+    "auth": {
+        "login": "Se connecter",
+        "signup": "Créer un compte",
+        "logout": "Se déconnecter",
+        "forgot": "Mot de passe oublié ?",
+        "noaccount": "Créer un compte"
+    },
+    "fullname": {
+        "title": "Nom complet",
+        "required": "Nom complet requis"
+    },
+    "username": {
+        "title": "Pseudo",
+        "required": "Pseudo requis"
+    },
+    "email": {
+        "title": "Email",
+        "required": "Email requis"
+    },
+    "password": {
+        "title": "Mot de passe",
+        "confirm": "Confirmez mot de passe",
+        "required":"Mot de passe requis"
+    },
+    "profile": {
+        "title": "Profil",
+        "updated": "Profil mis à jour avec succès !"
+    },
+    "settings": {
+        "title": "Paramètres",
+        "theme": "Thème",
+        "light": "Lumière",
+        "dark": "Ténèbres",
+        "language": "Langue",
+        "updated":"Paramètres mis à jour avec succès !"
+    },
+    "buttons": {
+        "edit": "Modifier",
+        "save": "Enregistrer",
+        "cancel": "Annuler"
+    },
+    "welcome": "Bonjour"
+}

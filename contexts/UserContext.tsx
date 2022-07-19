@@ -3,7 +3,7 @@ import { Auth, DataStore } from "aws-amplify";
 import { createContext, useContext, useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import Toast from "react-native-toast-message";
-import { UserModelBase } from "../constants/User";
+import { UserModelBase } from "../constants/types/User";
 import { User } from "../models";
 
 interface defaultUserContext {
@@ -37,9 +37,9 @@ const UserContextProvider = ({ children }: { children: any }) => {
             const newUser = await DataStore.save(
                 User.copyOf(users[0], updated => {
                     updated.fullname = fullname,
-                        updated.email = email,
-                        updated.confirmedEmail = user.confirmedEmail,
-                        updated.username = username
+                    updated.email = email,
+                    updated.confirmedEmail = user.confirmedEmail,
+                    updated.username = username
                 })
             )
             setUser(newUser);
@@ -62,6 +62,7 @@ const UserContextProvider = ({ children }: { children: any }) => {
             const cognito = await Auth.currentAuthenticatedUser();
             const queryUsers = (await DataStore.query(User))
             .filter(u => u.username !== cognito.username);
+            console.log(queryUsers[0]);
             setConnected(true);
             setUser({
                 ...UserModelBase,

@@ -2,9 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import { Auth, DataStore } from "aws-amplify";
 import { createContext, useContext, useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
-import { SettingsModelBase } from "../constants/Settings";
+import { SettingsModelBase } from "../constants/types/Settings";
 import { User } from "../models";
 import { Settings } from "../models";
+import { languageContext } from "./LanguageContext";
 
 interface DefaultSettingsContext {
     settings: Settings;
@@ -23,6 +24,7 @@ export const SettingsContext = createContext<DefaultSettingsContext>(defaultStat
 
 const SettingsContextProvider = ({ children }: { children: any }) => {
     const [settings, setSettings] = useState<Settings>(defaultState.settings);
+    const { lang } = useContext(languageContext);
     const navigation = useNavigation();
 
     const updateSettings = async ({ id, theme, language }:
@@ -57,7 +59,8 @@ const SettingsContextProvider = ({ children }: { children: any }) => {
             .filter(u => u.username !== cognito.username);
             setSettings({
                 ...SettingsModelBase,
-                ...querySettings[0].settings
+                ...querySettings[0].settings,
+                language: lang
             });
         } catch (error: any) {
             console.warn(error.message);

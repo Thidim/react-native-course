@@ -1,5 +1,4 @@
-import { ReactChild, ReactFragment, ReactPortal, useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useContext, useState } from "react";
 import { Image, StyleSheet, Switch, Text, View } from "react-native";
 import CustomButton from "../../../components/CustomButton";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,8 +7,9 @@ import SelectDropdown from "react-native-select-dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { SettingsContext } from "../../../contexts/SettingsContext";
-import { Country } from "../../../constants/Country";
+import { Country } from "../../../constants/types/Country";
 import Toast from "react-native-toast-message";
+import { languageContext } from "../../../contexts/LanguageContext";
 
 const countriesWithFlags: Country[] = [
     { id: 'fr', title: 'France', image: require('../../../assets/images/fr.png') },
@@ -19,7 +19,7 @@ const countriesWithFlags: Country[] = [
 const Settings = () => {
     const { settings, updateSettings } = useContext(SettingsContext);
     const [editable, setEdit] = useState<boolean>(false);
-    const [lang, setLang] = useState(settings.language);
+    const { lang, setLanguage, t } = useContext(languageContext);
     const [isEnabled, setIsEnabled] = useState(settings.theme);
 
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -32,7 +32,7 @@ const Settings = () => {
         });
         Toast.show({
             type: 'info',
-            text1: 'Settings successfully updated'
+            text1: t('settings.updated')
         })
     }
 
@@ -43,10 +43,10 @@ const Settings = () => {
         ]}>
             <Toast />
             <View style={styles.settings_header}>
-                <Text style={styles.settings_header_text}>Settings</Text>
+                <Text style={styles.settings_header_text}>{ t('settings.title') }</Text>
                 {!editable && (
                     <CustomButton
-                        value="Edit"
+                        value={t("buttons.edit")}
                         submit={() => setEdit(!editable)}
                         size={'is_min'}
                     />
@@ -56,10 +56,10 @@ const Settings = () => {
             <View style={styles.settings_data}>
                 <View style={[styles.theme, globalStyles.is_half]}>
                     <View style={globalStyles.is_full}>
-                        <Text style={styles.theme_title}>Theme</Text>
+                        <Text style={styles.theme_title}>{t('settings.theme')}</Text>
                     </View>
                     <View style={[styles.theme_mode, globalStyles.is_full]}>
-                        <Text style={styles[`light_${isEnabled}`]}>Light</Text>
+                        <Text style={styles[`light_${isEnabled}`]}>{t('settings.light')}</Text>
                         <Switch
                             style={styles.switch}
                             trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -68,24 +68,26 @@ const Settings = () => {
                                 if (editable)
                                     toggleSwitch()
                             }}
-                            value={isEnabled}
+                            value={isEnabled || false}
                         />
-                        <Text style={styles[`dark_${isEnabled}`]}>Dark</Text>
+                        <Text style={styles[`dark_${isEnabled}`]}>{t('settings.dark')}</Text>
                     </View>
                 </View>
                 <View style={[styles.lang, globalStyles.is_half]}>
                     <View style={globalStyles.is_full}>
-                        <Text style={styles.lang_title}>Language</Text>
+                        <Text style={styles.lang_title}>{t('settings.language')}</Text>
                     </View>
                     <View style={[styles.lang_selector, globalStyles.is_full]}>
                         <SelectDropdown
+                            buttonTextAfterSelection={() => ''}
+                            rowTextForSelection={() => ''}
                             data={countriesWithFlags}
                             defaultValue={lang === 'fr'
                                 ? { id: 'fr', title: 'France', image: require('../../../assets/images/fr.png') }
                                 : { id: 'en', title: 'England', image: require('../../../assets/images/en.png') }}
                             onSelect={(selectedItem: any, index: any) => {
                                 console.log(selectedItem, index);
-                                setLang(selectedItem.id);
+                                setLanguage(selectedItem.id);
                             }}
                             buttonStyle={styles.dropdown3BtnStyle}
                             renderCustomizedButtonChild={(selectedItem: { image: any; title: any; }, index: any) => {
@@ -120,7 +122,7 @@ const Settings = () => {
                 {editable && (
                     <>
                         <CustomButton
-                            value={"Save"}
+                            value={t("buttons.save")}
                             submit={() => {
                                 setEdit(!editable);
                                 update();
@@ -128,7 +130,7 @@ const Settings = () => {
                             size={'is_min'}
                         />
                         <CustomButton
-                            value={"Cancel"}
+                            value={t("buttons.cancel")}
                             submit={() => setEdit(!editable)}
                             type={'editing'}
                             size={'is_min'}
@@ -245,6 +247,7 @@ const styles: any = StyleSheet.create({
     dropdown3RowTxt: {
         color: 'black',
         textAlign: 'center',
+        flex: 1,
         fontWeight: 'bold',
         fontSize: 15,
         marginHorizontal: 12,

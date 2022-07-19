@@ -10,13 +10,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
 
-import Colors from '../constants/Colors';
+import Colors from '../constants/types/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import NewPassword from '../screens/Password/NewPassword';
 import NotFoundScreen from '../screens/NotFoundScreen/';
 import LogIn from '../screens/Authentification/LogIn';
 import SignUp from '../screens/Authentification/SignUp';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../constants/types';
+import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../constants/types/types';
 import LinkingConfiguration from './LinkingConfiguration';
 import ForgotPassword from '../screens/Password/ForgotPassword';
 import ConfirmEmail from '../screens/ConfirmEmail/';
@@ -26,17 +26,20 @@ import Home from '../screens/App/Home';
 import Settings from '../screens/App/Settings';
 import Profile from '../screens/App/Profile';
 import SettingsContextProvider from '../contexts/SettingsContext';
+import LanguageContextProvider from '../contexts/LanguageContext';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}>
-      <SettingsContextProvider>
-        <UserContextProvider>
-          <Header />
-          <RootNavigator />
-        </UserContextProvider>
-      </SettingsContextProvider>
+      <LanguageContextProvider>
+        <SettingsContextProvider>
+          <UserContextProvider>
+            <Header />
+            <RootNavigator />
+          </UserContextProvider>
+        </SettingsContextProvider>
+      </LanguageContextProvider>
     </NavigationContainer>
   );
 }
@@ -53,11 +56,11 @@ function RootNavigator() {
     <Stack.Navigator>
       {connected ? (
         <Stack.Group>
-          <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-          <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+          <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
           <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
           <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
+          <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
         </Stack.Group>
       ) : (
         <Stack.Group>

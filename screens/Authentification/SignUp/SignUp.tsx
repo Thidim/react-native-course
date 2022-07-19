@@ -6,15 +6,18 @@ import CustomButton from '../../../components/CustomButton';
 import CustomInput from '../../../components/CustomInput';
 
 import { View } from 'react-native';
-import { SettingsModelBase } from '../../../constants/Settings';
+import { SettingsModelBase } from '../../../constants/types/Settings';
 import globalStyles from '../../../constants/Styles';
-import { UserModelBase } from '../../../constants/User';
+import { UserModelBase } from '../../../constants/types/User';
 import { Settings, User } from '../../../models';
+import { useContext } from 'react';
+import { languageContext } from '../../../contexts/LanguageContext';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignUp = () => {
+  const { t } = useContext(languageContext);
   const navigation = useNavigation();
   const { control, handleSubmit, watch } = useForm();
   const passw = watch('password');
@@ -63,26 +66,26 @@ const SignUp = () => {
       <CustomInput
         name={'name'}
         control={control}
-        placeholder={'Full name'}
+        placeholder={t('fullname.title')}
         rules={{
-          equired: 'Name is required',
+          required: t('fullname.required'),
         }}
       />
       <CustomInput
         name={'email'}
         control={control}
-        placeholder={'Email'}
+        placeholder={t('email.title')}
         rules={{
-          equired: 'Email is required',
+          required: t('email.required'),
           pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
         }}
       />
       <CustomInput
         name={'username'}
         control={control}
-        placeholder={'Username'}
+        placeholder={t('username.title')}
         rules={{
-          required: 'Username is required',
+          required: t('username.required'),
           minLength: {
             value: 3,
             message: 'Username should be at least 3 characters long',
@@ -96,10 +99,10 @@ const SignUp = () => {
       <CustomInput
         name={'password'}
         control={control}
-        placeholder={'Password'}
+        placeholder={t('password.title')}
         secureTextEntry
         rules={{
-          required: 'Password is required',
+          required: t('password.required'),
             minLength: {
               value: 8,
               message: 'Password should be at least 8 characters long',
@@ -109,7 +112,7 @@ const SignUp = () => {
       <CustomInput
         name={'verify password'}
         control={control}
-        placeholder={'Verify password'}
+        placeholder={t('password.confirm')}
         secureTextEntry
         rules={{
           validate: ( value: string ) => value === passw || 'Password do not match',
@@ -119,11 +122,11 @@ const SignUp = () => {
         value={'Sign up'}
         submit={handleSubmit(signup)}
       />
-      {/* <CustomButton
-        name={"Login with Google"}
-        submit={facebookLogin}
-      />
       <CustomButton
+        value={"Login with Google"}
+        submit={googleLogin}
+      />
+      {/* <CustomButton
         name={"Login with Facebook"}
         submit={googleLogin}
       /> */}

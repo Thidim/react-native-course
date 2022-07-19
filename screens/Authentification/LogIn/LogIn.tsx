@@ -5,14 +5,16 @@ import Toast from 'react-native-toast-message';
 import CustomButton from '../../../components/CustomButton';
 import CustomInput from '../../../components/CustomInput';
 
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import globalStyles from '../../../constants/Styles';
 import { UserContext } from '../../../contexts/UserContext';
+import { languageContext } from '../../../contexts/LanguageContext';
 
 const LogIn = () => {
   const navigation = useNavigation();
-  const { control, handleSubmit, formState:{errors} } = useForm();
+  const { control, handleSubmit } = useForm();
   const { logIn } = useContext(UserContext);
+  const { t, lang } = useContext(languageContext);
 
   const forgotPassword = () => {
     console.warn("Forgot");
@@ -34,27 +36,27 @@ const LogIn = () => {
       <CustomInput
         name={'username'}
         control={control}
-        placeholder={'Username'}
+        placeholder={t('username.title')}
         rules={{
-          required: 'Username is required',
+          required: t('username.required'),
         }}
       />
       <CustomInput
         name={'password'}
         control={control}
-        placeholder={'Password'}
+        placeholder={t('password.title')}
         secureTextEntry
         rules={{
-          required: 'Password is required',
+          required: t('password.required'),
         }}
       />
       <Toast />
       <CustomButton
-        value={"Log in"}
+        value={t("auth.login")}
         submit={handleSubmit(logIn)}
       />
       <CustomButton
-        value={"Forgot your password ?"}
+        value={t("auth.forgot")}
         submit={forgotPassword}
         type={"secondary"}
       />
@@ -67,7 +69,7 @@ const LogIn = () => {
         submit={googleLogin}
       /> */}
       <CustomButton
-        value={"Don't have an account yet ?"}
+        value={t("auth.noaccount")}
         submit={noAccount}
         type={"secondary"}
       />
