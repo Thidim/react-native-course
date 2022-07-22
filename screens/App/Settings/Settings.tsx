@@ -1,15 +1,18 @@
 import { useContext, useState } from "react";
-import { Image, StyleSheet, Switch, Text, View } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import CustomButton from "../../../components/CustomButton";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import globalStyles from "../../../constants/Styles";
 import SelectDropdown from "react-native-select-dropdown";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { SettingsContext } from "../../../contexts/SettingsContext";
 import { Country } from "../../../constants/types/Country";
 import Toast from "react-native-toast-message";
 import { languageContext } from "../../../contexts/LanguageContext";
+import View from "../../../components/View/View";
+import Text from "../../../components/Text/Text";
+import Icon from "../../../components/Icon/Icon";
+import ThemeSwitch from "../../../components/ThemeSwitch/ThemeSwitch";
 
 const countriesWithFlags: Country[] = [
     { id: 'fr', title: 'France', image: require('../../../assets/images/fr.png') },
@@ -20,14 +23,10 @@ const Settings = () => {
     const { settings, updateSettings } = useContext(SettingsContext);
     const [editable, setEdit] = useState<boolean>(false);
     const { lang, setLanguage, t } = useContext(languageContext);
-    const [isEnabled, setIsEnabled] = useState(settings.theme);
 
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
-    const update  = () => {
+    const update = () => {
         updateSettings({
             id: settings.id,
-            theme: isEnabled,
             language: lang
         });
         Toast.show({
@@ -37,106 +36,95 @@ const Settings = () => {
     }
 
     return (
-        <View style={[
-            globalStyles.container,
-            styles.settings
-        ]}>
-            <Toast />
-            <View style={styles.settings_header}>
-                <Text style={styles.settings_header_text}>{ t('settings.title') }</Text>
-                {!editable && (
-                    <CustomButton
-                        value={t("buttons.edit")}
-                        submit={() => setEdit(!editable)}
-                        size={'is_min'}
-                    />
-
-                )}
-            </View>
-            <View style={styles.settings_data}>
-                <View style={[styles.theme, globalStyles.is_half]}>
-                    <View style={globalStyles.is_full}>
-                        <Text style={styles.theme_title}>{t('settings.theme')}</Text>
-                    </View>
-                    <View style={[styles.theme_mode, globalStyles.is_full]}>
-                        <Text style={styles[`light_${isEnabled}`]}>{t('settings.light')}</Text>
-                        <Switch
-                            style={styles.switch}
-                            trackColor={{ false: "#767577", true: "#81b0ff" }}
-                            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                            onValueChange={() => {
-                                if (editable)
-                                    toggleSwitch()
-                            }}
-                            value={isEnabled || false}
+        <View style={globalStyles.inner}>
+            <View style={[
+                globalStyles.container,
+                styles.settings
+            ]}>
+                <Toast />
+                <View style={styles.settings_header}>
+                    <Text style={styles.settings_header_text}>{t('settings.title')}</Text>
+                    {!editable && (
+                        <CustomButton
+                            value={t("buttons.edit")}
+                            submit={() => setEdit(!editable)}
+                            size={'is_min'}
                         />
-                        <Text style={styles[`dark_${isEnabled}`]}>{t('settings.dark')}</Text>
-                    </View>
+
+                    )}
                 </View>
-                <View style={[styles.lang, globalStyles.is_half]}>
-                    <View style={globalStyles.is_full}>
-                        <Text style={styles.lang_title}>{t('settings.language')}</Text>
+                <View style={styles.settings_data}>
+                    <View style={[styles.theme, globalStyles.is_half]}>
+                        <View style={globalStyles.is_full}>
+                            <Text style={styles.theme_title}>{t('settings.theme')}</Text>
+                        </View>
+                        <ThemeSwitch editable={editable} style={globalStyles.is_half} />
                     </View>
-                    <View style={[styles.lang_selector, globalStyles.is_full]}>
-                        <SelectDropdown
-                            buttonTextAfterSelection={() => ''}
-                            rowTextForSelection={() => ''}
-                            data={countriesWithFlags}
-                            defaultValue={lang === 'fr'
-                                ? { id: 'fr', title: 'France', image: require('../../../assets/images/fr.png') }
-                                : { id: 'en', title: 'England', image: require('../../../assets/images/en.png') }}
-                            onSelect={(selectedItem: any, index: any) => {
-                                console.log(selectedItem, index);
-                                setLanguage(selectedItem.id);
-                            }}
-                            buttonStyle={styles.dropdown3BtnStyle}
-                            renderCustomizedButtonChild={(selectedItem: { image: any; title: any; }, index: any) => {
-                                if (editable)
+                    <View style={[styles.lang, globalStyles.is_half]}>
+                        <View style={globalStyles.is_full}>
+                            <Text style={styles.lang_title}>{t('settings.language')}</Text>
+                        </View>
+                        <View style={[styles.lang_selector, globalStyles.is_full]}>
+                            <SelectDropdown
+                                buttonTextAfterSelection={() => ''}
+                                rowTextForSelection={() => ''}
+                                data={countriesWithFlags}
+                                defaultValue={lang === 'fr'
+                                    ? { id: 'fr', title: 'France', image: require('../../../assets/images/fr.png') }
+                                    : { id: 'en', title: 'England', image: require('../../../assets/images/en.png') }}
+                                onSelect={(selectedItem: any, index: any) => {
+                                    console.log(selectedItem, index);
+                                    setLanguage(selectedItem.id);
+                                }}
+                                buttonStyle={styles.dropdown3BtnStyle}
+                                renderCustomizedButtonChild={(selectedItem: { image: any; title: any; }, index: any) => {
+                                    if (editable)
+                                        return (
+                                            <View style={styles.dropdown3BtnChildStyle}>
+                                                {selectedItem ? (
+                                                    <Image source={selectedItem.image} style={styles.dropdown3BtnImage} />
+                                                ) : (
+                                                    <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
+                                                )}
+                                                <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select country'}</Text>
+                                                <Icon icon={faChevronDown} />
+                                            </View>
+                                        );
+                                }}
+                                dropdownStyle={styles.dropdown3DropdownStyle}
+                                rowStyle={styles.dropdown3RowStyle}
+                                renderCustomizedRowChild={(item: { image: any; title: any; }, index: any) => {
                                     return (
-                                        <View style={styles.dropdown3BtnChildStyle}>
-                                            {selectedItem ? (
-                                                <Image source={selectedItem.image} style={styles.dropdown3BtnImage} />
-                                            ) : (
-                                                <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
-                                            )}
-                                            <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select country'}</Text>
-                                            <FontAwesomeIcon icon={faChevronDown} />
+                                        <View style={styles.dropdown3RowChildStyle}>
+                                            <Image source={item.image} style={styles.dropdownRowImage} />
+                                            <Text style={styles.dropdown3RowTxt}>{item.title}</Text>
                                         </View>
                                     );
-                            }}
-                            dropdownStyle={styles.dropdown3DropdownStyle}
-                            rowStyle={styles.dropdown3RowStyle}
-                            renderCustomizedRowChild={(item: { image: any; title: any; }, index: any) => {
-                                return (
-                                    <View style={styles.dropdown3RowChildStyle}>
-                                        <Image source={item.image} style={styles.dropdownRowImage} />
-                                        <Text style={styles.dropdown3RowTxt}>{item.title}</Text>
-                                    </View>
-                                );
-                            }}
-                        />
+                                }}
+                            />
+                        </View>
                     </View>
                 </View>
-            </View>
-            <View style={styles.save_buttons}>
-                {editable && (
-                    <>
-                        <CustomButton
-                            value={t("buttons.save")}
-                            submit={() => {
-                                setEdit(!editable);
-                                update();
-                            }}
-                            size={'is_min'}
-                        />
-                        <CustomButton
-                            value={t("buttons.cancel")}
-                            submit={() => setEdit(!editable)}
-                            type={'editing'}
-                            size={'is_min'}
-                        />
-                    </>
-                )}
+                <View style={styles.save_buttons}>
+                    {editable && (
+                        <>
+                            <CustomButton
+                                value={t("buttons.save")}
+                                submit={() => {
+                                    setEdit(!editable);
+                                    update();
+                                }}
+                                size={'is_min'}
+                            />
+                            <CustomButton
+                                value={t("buttons.cancel")}
+                                submit={() => setEdit(!editable)}
+                                type={'editing'}
+                                size={'is_min'}
+                            />
+                        </>
+                    )}
+                </View>
             </View>
         </View>
     );
@@ -175,6 +163,7 @@ const styles: any = StyleSheet.create({
     theme_title: {
         fontSize: 25,
         marginTop: 15,
+        marginBottom: 20,
         textAlign: 'center',
     },
     lang_title: {
@@ -182,21 +171,8 @@ const styles: any = StyleSheet.create({
         marginTop: 15,
         textAlign: 'center',
     },
-    theme_mode: {
-        marginTop: 35,
-        marginBottom: 35,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-    },
     switch: {
         alignSelf: 'center',
-    },
-    light_true: {
-        color: '#0000'
-    },
-    dark_false: {
-        color: '#0000'
     },
     save_buttons: {
         width: '100%',

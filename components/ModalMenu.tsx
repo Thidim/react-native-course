@@ -1,10 +1,12 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
+import View from "./View/View";
 
-const ModalMenu = ({ show, children }: { show: Boolean, children: any }) => {
+const ModalMenu = ({ show, children, style }: { show: Boolean, children: any, style?: object }) => {
     return (
         <View style={[
             styles.modal,
-            styles[show.toString()]
+            styles[show.toString()],
+            style
         ]}>
             {children}
         </View>
@@ -17,9 +19,11 @@ const styles: any = StyleSheet.create({
     modal:{
         position:'absolute',
         width: '200px',
-        marginTop: 67,
+        marginTop: 70,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderTopRightRadius: 0,
         right: -10,
-        backgroundColor: 'inherit'
     },
     true: {
         display: 'flex',

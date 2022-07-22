@@ -12,6 +12,17 @@ import { UserModelBase } from '../../../constants/types/User';
 import { Settings, User } from '../../../models';
 import { useContext } from 'react';
 import { languageContext } from '../../../contexts/LanguageContext';
+import awsmobile from '../../../aws-exports';
+import Amplify from 'aws-amplify';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+
+const isLocalhost = Boolean(
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "[::1]" ||
+  window.location.hostname.match(
+    /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+  )
+);
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -21,6 +32,27 @@ const SignUp = () => {
   const navigation = useNavigation();
   const { control, handleSubmit, watch } = useForm();
   const passw = watch('password');
+
+  const [
+    localRedirectSignIn,
+    productionRedirectSignIn,
+  ] = awsmobile.oauth.redirectSignIn.split(",");
+  
+  const [
+    localRedirectSignOut,
+    productionRedirectSignOut,
+  ] = awsmobile.oauth.redirectSignOut.split(",");
+  
+  const updatedConfig = {
+    ...awsmobile,
+    oauth: {
+      ...awsmobile.oauth,
+      redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
+      redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+    }
+  }
+  Amplify.configure(updatedConfig)
+
 
   const signup = async (data: FieldValues) => {
     const {username, password, email, name} = data;
@@ -52,7 +84,7 @@ const SignUp = () => {
     console.warn("fb");
   }
   const googleLogin = () => {
-    console.warn("google");
+    // Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google });
   }
   const gotAccount = () => {
     console.warn("Got an account");
@@ -122,10 +154,10 @@ const SignUp = () => {
         value={'Sign up'}
         submit={handleSubmit(signup)}
       />
-      <CustomButton
+      {/* <CustomButton
         value={"Login with Google"}
         submit={googleLogin}
-      />
+      /> */}
       {/* <CustomButton
         name={"Login with Facebook"}
         submit={googleLogin}

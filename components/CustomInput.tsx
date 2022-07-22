@@ -1,5 +1,10 @@
+import React, { useContext } from 'react';
 import { Control, Controller, FieldValues } from 'react-hook-form';
-import { StyleSheet, TextInput, Text, View } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
+import globalStyles from '../constants/Styles';
+import { ThemeContext } from '../contexts/ThemeContext';
+import Text from './Text/Text';
+import View from './View/View';
 
 const CustomInput = ({
     control,
@@ -18,6 +23,8 @@ const CustomInput = ({
     value?: string | null,
     editable?: boolean
   }) => {
+    const { theme } = useContext(ThemeContext);
+
     return (
       <Controller
         control={control}
@@ -32,6 +39,7 @@ const CustomInput = ({
                 {borderColor: error ? 'red' : '#e8e8e8'},
               ]}>
               <TextInput
+                style={globalStyles[`text_input_${theme ? 'dark' : 'light'}`]}
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}

@@ -1,42 +1,55 @@
 import { useNavigation } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
 import { useContext, useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 import CustomButton from "./CustomButton";
 import ModalMenu from "./ModalMenu";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronDown, faChevronUp, faCogs, faHome, faRightToBracket, faUser, faUserGear } from "@fortawesome/free-solid-svg-icons";
 import { languageContext } from "../contexts/LanguageContext";
+import View from "./View/View";
+import Icon from "./Icon/Icon";
+import globalStyles from "../constants/Styles";
+import { ThemeContext } from "../contexts/ThemeContext";
+import ThemeSwitch from "./ThemeSwitch/ThemeSwitch";
 
 const Header = () => {
     const { user, connected, logOut } = useContext(UserContext);
     const [show, setShow] = useState<Boolean>(false);
     const { t } = useContext(languageContext);
+    const { theme } = useContext(ThemeContext);
     const navigation = useNavigation();
 
     return (
-        <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                <FontAwesomeIcon
+        <View style={[styles.header, globalStyles[`header_${theme ? 'dark' : 'light'}`]]}>
+            <TouchableOpacity
+                onPress={() => navigation.navigate('Home')}
+            >
+                <Icon
                     style={{ margin: 'auto' }}
                     size={30}
                     icon={faHome}
                 />
             </TouchableOpacity>
-            <View style={styles.connection}>
+            <View style={[styles.connection, globalStyles[`header_${theme ? 'dark' : 'light'}`]]}>
                 {connected ? (
                     <>
-                        <View>
+                        <View style={globalStyles[`header_${theme ? 'dark' : 'light'}`]}>
                             <CustomButton
                                 value={`${t('welcome')}, ${user.username}`}
+                                style={globalStyles[`to_${theme ? 'dark' : 'light'}`]}
                                 submit={() => setShow(!show)}
                                 type={'secondary'}
                             >
-                                <FontAwesomeIcon icon={ show ? faChevronUp : faChevronDown } />
+                                <Icon
+                                    icon={ show ? faChevronUp : faChevronDown }
+                                />
                             </CustomButton>
                         </View>
-                        <ModalMenu show={show} >
+                        <ModalMenu
+                            show={show}
+                            style={globalStyles[`modal_menu_${theme ? 'dark': 'light'}`]}
+                        >
                             <CustomButton
                                 value={t("profile.title")}
                                 submit={() => {
@@ -45,7 +58,7 @@ const Header = () => {
                                 }}
                                 type="secondary"
                             >
-                                <FontAwesomeIcon icon={faUser} />
+                                <Icon icon={faUser} />
                             </CustomButton>
                             <CustomButton
                                 value={t("settings.title")}
@@ -55,8 +68,9 @@ const Header = () => {
                                 }}
                                 type="secondary"
                             >
-                                <FontAwesomeIcon icon={faCogs} />
+                                <Icon icon={faCogs} />
                             </CustomButton>
+                            <ThemeSwitch />
                             <CustomButton
                                 value={t("auth.logout")}
                                 submit={() => {
@@ -65,7 +79,7 @@ const Header = () => {
                                 }}
                                 type="tertiary"
                             >
-                                <FontAwesomeIcon icon={faRightToBracket} />
+                                <Icon icon={faRightToBracket} />
                             </CustomButton>
                         </ModalMenu>
                     </>
@@ -98,11 +112,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'white',
         justifyContent: 'space-between',
-        // alignItems: 'flex-end',
         zIndex: 1
     },
     connection: {
-        width: 300,
         flex: 1,
         display: 'flex',
         backgroundColor: 'inherit',

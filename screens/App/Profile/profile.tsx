@@ -1,14 +1,16 @@
-import { faCircleCheck, faCircleXmark, faL } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import React, { useContext, useState } from "react";
-import { FieldValues, set, useForm } from "react-hook-form";
-import { StyleSheet, Text, View } from "react-native";
+import { FieldValues, useForm } from "react-hook-form";
+import { StyleSheet } from "react-native";
 import CustomButton from "../../../components/CustomButton";
 import CustomInput from "../../../components/CustomInput";
 import Toast from 'react-native-toast-message';
 import globalStyles from "../../../constants/Styles";
 import { UserContext } from "../../../contexts/UserContext";
 import { languageContext } from "../../../contexts/LanguageContext";
+import View from "../../../components/View/View";
+import Text from "../../../components/Text/Text";
+import Icon from "../../../components/Icon/Icon";
 
 const Profile = () => {
     const { user, updateUser } = useContext(UserContext);
@@ -30,66 +32,68 @@ const Profile = () => {
     }
 
     return (
-        <View style={[
-            globalStyles.container,
-            styles.profile
-        ]}>
-            <Toast />
-            <View style={styles.profile_header}>
-                <Text style={styles.profile_header_text}>{t('profile.title')}</Text>
-                {!editable && (
-                    <CustomButton
-                        value={t("buttons.edit")}
-                        submit={() => setEdit(!editable)}
-                        size={'is_min'}
-                    />
-
-                )}
-            </View>
-            <View style={styles.profile_data}>
-                <CustomInput
-                    value={user.fullname}
-                    name={'name'}
-                    control={control}
-                    placeholder={t('fullname.title')}
-                    editable={editable}
-                />
-                <CustomInput
-                    name={'username'}
-                    control={control}
-                    placeholder={t('username.title')}
-                    editable={editable}
-                    value={user.username}
-                />
-                <View style={styles.email_info}>
-                    <CustomInput
-                        name={'email'}
-                        control={control}
-                        placeholder={t('email.title')}
-                        editable={false}
-                        value={user.email}
-                    />
-                    <FontAwesomeIcon
-                        style={[styles.email_valid, user.confirmedEmail ? styles.yes : styles.no ]}
-                        icon={user.confirmedEmail ? faCircleCheck : faCircleXmark} />
-                </View>
-            </View>
-            <View style={styles.save_buttons}>
-                {editable && (
-                    <>
+        <View style={globalStyles.inner}>
+            <View style={[
+                globalStyles.container,
+                styles.profile
+            ]}>
+                <Toast />
+                <View style={styles.profile_header}>
+                    <Text style={styles.profile_header_text}>{t('profile.title')}</Text>
+                    {!editable && (
                         <CustomButton
-                            value={t("buttons.save")}
-                            submit={handleSubmit(updateProfile)}
-                            size={'is_min'}
-                        />
-                        <CustomButton
-                            value={t("buttons.cancel")}
+                            value={t("buttons.edit")}
                             submit={() => setEdit(!editable)}
-                            type={'editing'}
                             size={'is_min'}
                         />
-                    </>
-                )}
+
+                    )}
+                </View>
+                <View style={styles.profile_data}>
+                    <CustomInput
+                        value={user.fullname}
+                        name={'name'}
+                        control={control}
+                        placeholder={t('fullname.title')}
+                        editable={editable}
+                    />
+                    <CustomInput
+                        name={'username'}
+                        control={control}
+                        placeholder={t('username.title')}
+                        editable={editable}
+                        value={user.username}
+                    />
+                    <View style={styles.email_info}>
+                        <CustomInput
+                            name={'email'}
+                            control={control}
+                            placeholder={t('email.title')}
+                            editable={false}
+                            value={user.email}
+                        />
+                        <Icon
+                            style={[styles.email_valid, user.confirmedEmail ? styles.yes : styles.no]}
+                            icon={user.confirmedEmail ? faCircleCheck : faCircleXmark} />
+                    </View>
+                </View>
+                <View style={styles.save_buttons}>
+                    {editable && (
+                        <>
+                            <CustomButton
+                                value={t("buttons.save")}
+                                submit={handleSubmit(updateProfile)}
+                                size={'is_min'}
+                            />
+                            <CustomButton
+                                value={t("buttons.cancel")}
+                                submit={() => setEdit(!editable)}
+                                type={'editing'}
+                                size={'is_min'}
+                            />
+                        </>
+                    )}
+                </View>
             </View>
         </View>
     );

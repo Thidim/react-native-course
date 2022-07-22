@@ -24,7 +24,7 @@ export const SettingsContext = createContext<DefaultSettingsContext>(defaultStat
 
 const SettingsContextProvider = ({ children }: { children: any }) => {
     const [settings, setSettings] = useState<Settings>(defaultState.settings);
-    const { lang } = useContext(languageContext);
+    const { lang, setLanguage } = useContext(languageContext);
     const navigation = useNavigation();
 
     const updateSettings = async ({ id, theme, language }:
@@ -34,10 +34,11 @@ const SettingsContextProvider = ({ children }: { children: any }) => {
             const newSettings = await DataStore.save(
                 Settings.copyOf(settings[0], updated => {
                     updated.theme = theme,
-                    updated.language = language
+                    updated.language = language !== lang ? language : lang
                 })
             )
             setSettings(newSettings);
+            setLanguage(newSettings.language || lang)
             console.log('Settings Updated');
             Toast.show({
                 type: 'info',
@@ -59,9 +60,9 @@ const SettingsContextProvider = ({ children }: { children: any }) => {
             .filter(u => u.username !== cognito.username);
             setSettings({
                 ...SettingsModelBase,
-                ...querySettings[0].settings,
-                language: lang
+                ...querySettings[0].settings
             });
+            setLanguage(querySettings[0].settings?.language || lang)
         } catch (error: any) {
             console.warn(error.message);
         }

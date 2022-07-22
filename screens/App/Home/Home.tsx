@@ -1,16 +1,19 @@
 import { useContext } from "react";
-import { Text, View } from "react-native";
 import globalStyles from "../../../constants/Styles";
 import { UserContext } from "../../../contexts/UserContext";
+import View from "../../../components/View/View";
+import Text from "../../../components/Text/Text";
 
 const Home = () => {
     const { user } = useContext(UserContext);
 
     return (
-        <View style={globalStyles.container}>
-            <Text>{user.fullname}</Text>
-            <Text>{user.email}</Text>
-            <Text>{user.confirmedEmail}</Text>
+        <View style={globalStyles.inner}>
+            <View style={globalStyles.container}>
+                <Text>
+                    {user.email}
+                </Text>
+            </View>
         </View>
     );
 }

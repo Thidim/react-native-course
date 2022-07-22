@@ -1,22 +1,23 @@
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import globalStyles from '../constants/Styles';
+import Text from "./Text/Text";
 
-const CustomButton = ({ value, submit, type = "primary", size = 'is_full', children }:
-    { value: string, submit: () => void, type?: string, size?: string, children?: any }) => {
+const CustomButton = ({ value, submit, type = "primary", size = 'is_full', children, style }:
+    { value: string, submit: () => void, type?: string, size?: string, children?: any, style?: object }) => {
     return (
         <Pressable
             onPress={submit}
             style={[
+                style,
                 globalStyles[size],
                 styles.button,
-                styles[`button_${type}`]
+                globalStyles[type]
             ]}
         >
             {children}
             <Text style={[
                 styles.text,
-                styles[`text_${type}`]
+                globalStyles[type]
             ]}>
                 {value}
             </Text>
@@ -36,9 +37,6 @@ const styles: any = StyleSheet.create({
         justifyContent: 'flex-start',
         borderRadius: 5,
     },
-    button_primary: {
-        backgroundColor: '#3B71F3',
-    },
     button_editing: {
         borderWidth: 1,
         border: '1px solid black',
@@ -46,10 +44,6 @@ const styles: any = StyleSheet.create({
     text: {
         flex: 1,
         textAlign: 'center',
-    },
-    text_primary: {
-        fontWeight: 'bold',
-        color: 'white',
     },
     text_secondary: {
     },

@@ -3,20 +3,16 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { ColorSchemeName } from 'react-native';
 
-import Colors from '../constants/types/Colors';
-import useColorScheme from '../hooks/useColorScheme';
 import NewPassword from '../screens/Password/NewPassword';
 import NotFoundScreen from '../screens/NotFoundScreen/';
 import LogIn from '../screens/Authentification/LogIn';
 import SignUp from '../screens/Authentification/SignUp';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../constants/types/types';
+import { RootStackParamList } from '../constants/types/types';
 import LinkingConfiguration from './LinkingConfiguration';
 import ForgotPassword from '../screens/Password/ForgotPassword';
 import ConfirmEmail from '../screens/ConfirmEmail/';
@@ -27,18 +23,21 @@ import Settings from '../screens/App/Settings';
 import Profile from '../screens/App/Profile';
 import SettingsContextProvider from '../contexts/SettingsContext';
 import LanguageContextProvider from '../contexts/LanguageContext';
+import ThemeContextProvider from '../contexts/ThemeContext';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation() {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}>
       <LanguageContextProvider>
-        <SettingsContextProvider>
-          <UserContextProvider>
-            <Header />
-            <RootNavigator />
-          </UserContextProvider>
-        </SettingsContextProvider>
+        <ThemeContextProvider>
+          <SettingsContextProvider>
+            <UserContextProvider>
+              <Header />
+              <RootNavigator />
+            </UserContextProvider>
+          </SettingsContextProvider>
+        </ThemeContextProvider>
       </LanguageContextProvider>
     </NavigationContainer>
   );
@@ -54,82 +53,23 @@ function RootNavigator() {
   const { connected } = React.useContext(UserContext)
   return (
     <Stack.Navigator>
-      {connected ? (
-        <Stack.Group>
-          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-          <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
-          <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-          <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
-          <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
-        </Stack.Group>
-      ) : (
-        <Stack.Group>
-          <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false }} />
-          <Stack.Screen name="Signup" component={SignUp} options={{ headerShown: false }} />
-          <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{ headerShown: false }} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
-        </Stack.Group>
-      )
-      }
+        {connected ? (
+          <Stack.Group>
+            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+            <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+            <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+            <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
+            <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+          </Stack.Group>
+        ) : (
+          <Stack.Group>
+            <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false }} />
+            <Stack.Screen name="Signup" component={SignUp} options={{ headerShown: false }} />
+            <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{ headerShown: false }} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
+          </Stack.Group>
+        )
+        }
     </Stack.Navigator>
   );
-}
-
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
-
-function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <BottomTab.Navigator
-      initialRouteName="Login"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
-      <BottomTab.Screen
-        name="Login"
-        component={LogIn}
-        options={({ navigation }: RootTabScreenProps<'Login'>) => ({
-          title: 'Login',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('NewPassword')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
-      />
-      <BottomTab.Screen
-        name="Signup"
-        component={SignUp}
-        options={{
-          title: 'Signup',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </BottomTab.Navigator>
-  );
-}
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }
