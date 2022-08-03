@@ -1,16 +1,14 @@
-import { useNavigation } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
-import { FieldValues, useForm } from 'react-hook-form';
-import Toast from 'react-native-toast-message';
 import CustomButton from '../../../components/CustomButton';
 import CustomInput from '../../../components/CustomInput';
-
+import { FieldValues, useForm } from 'react-hook-form';
 import { View } from '../../../components/Themed';
+import Toast from 'react-native-toast-message';
 import globalStyles from '../../../constants/Styles';
+import { AuthParamScreenProps } from '../../../constants/types';
 
-const LogIn = () => {
-  const navigation = useNavigation();
-  const { control, handleSubmit, formState:{errors} } = useForm();
+const LogIn = ({ navigation }: AuthParamScreenProps<'login'>) => {
+  const { control, handleSubmit } = useForm()
 
   const login = async (data: FieldValues) => {
     try {
@@ -26,17 +24,11 @@ const LogIn = () => {
   }
   const forgotPassword = () => {
     console.warn("Forgot");
-    navigation.navigate('ForgotPassword');
-  }
-  const facebookLogin = () => {
-    console.warn("fb");
-  }
-  const googleLogin = () => {
-    console.warn("google");
+    navigation.replace('new_password');
   }
   const noAccount = () => {
     console.warn("No account yet");
-    navigation.navigate('Signup');
+    navigation.replace('signup');
   }
 
   return (
@@ -68,14 +60,6 @@ const LogIn = () => {
         submit={forgotPassword}
         type={"secondary"}
       />
-      {/* <CustomButton
-        value={"Login with Google"}
-        submit={facebookLogin}
-      />
-      <CustomButton
-        value={"Login with Facebook"}
-        submit={googleLogin}
-      /> */}
       <CustomButton
         value={"Don't have an account yet ?"}
         submit={noAccount}
