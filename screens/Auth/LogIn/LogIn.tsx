@@ -5,7 +5,7 @@ import CustomInput from '../../../components/CustomInput';
 import { View } from '../../../components/Themed';
 import { AuthParamScreenProps } from '../../../constants/types';
 
-const LogIn = ({ navigation }: AuthParamScreenProps<'login'>) => {
+const LogIn = ({/* TODO */}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,11 +14,11 @@ const LogIn = ({ navigation }: AuthParamScreenProps<'login'>) => {
   }
   const forgotPassword = () => {
     console.warn("Forgot");
-    navigation.replace('forgot_password');
+    {/* TODO */}
   }
   const noAccount = () => {
     console.warn("No account yet");
-    navigation.replace('signup');
+    {/* TODO */}
   }
 
   return (

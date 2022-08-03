@@ -24,6 +24,5 @@ export type AuthParamScreenProps<Screen extends keyof AuthParamList> = NativeSta
 export type AuthParamList = {
   login: undefined;
   signup: undefined;
-  forgot_password: undefined;
-  reset_password: undefined;
+  new_password: undefined;
 };

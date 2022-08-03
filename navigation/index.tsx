@@ -8,13 +8,12 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ColorSchemeName } from 'react-native';
 
-import ResetPassword from '../screens/Auth/Password/ResetPassword/ResetPassword';
 import NotFound from '../screens/NotFound/NotFound';
 import LogIn from '../screens/Auth/LogIn/LogIn';
 import SignUp from '../screens/Auth/SignUp/SignUp';
+import NewPassword from '../screens/Auth/Password/NewPassword';
 import { AuthParamList, RootParamList } from '../constants/types';
 import LinkingConfiguration from './LinkingConfiguration';
-import ForgotPassword from '../screens/Auth/Password/ForgotPassword/ForgotPassword';
 
 const Navigation = ({ colorScheme }: { colorScheme: ColorSchemeName }) => {
   return (
@@ -30,10 +29,11 @@ const Root = createNativeStackNavigator<RootParamList>();
 
 const RootNavigator = () => {
   return (
-    <Root.Navigator initialRouteName='auth' screenOptions={{ headerShown: false }}>
-      <Root.Screen name="auth" component={AuthNavigator} />
-      <Root.Screen name="not_found" component={NotFound} options={{ title: 'Oops!' }} />
-    </Root.Navigator>
+    <>
+    {/* 
+      TODO
+     */}
+    </>
   );
 }
 
@@ -41,12 +41,11 @@ const Auth = createNativeStackNavigator<AuthParamList>();
 
 const AuthNavigator = () => {
   return (
-    <Auth.Navigator initialRouteName='login' screenOptions={{ headerShown: false }}>
-      <Auth.Screen name="login" component={LogIn} />
-      <Auth.Screen name="signup" component={SignUp} />
-      <Auth.Screen name="reset_password" component={ResetPassword} />
-      <Auth.Screen name="forgot_password" component={ForgotPassword} />
-    </Auth.Navigator>
+    <>
+    {/* 
+      TODO
+     */}
+    </>
   );
 }
 

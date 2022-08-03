@@ -17,8 +17,7 @@ const linking: LinkingOptions<RootParamList> = {
         screens: {
           login: 'auth/login',
           signup: 'auth/signup',
-          forgot_password: 'auth/password/forgot-password',
-          reset_password: 'auth/password/reset-password',
+          new_password: 'auth/password/new-password',
         },
       },
       not_found: '*',
