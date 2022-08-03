@@ -4,7 +4,7 @@ import CustomButton from '../../../../components/CustomButton';
 import CustomInput from '../../../../components/CustomInput';
 
 import { View } from '../../../../components/Themed';
-import { AuthParamScreenProps } from '../../../../types';
+import { AuthParamScreenProps } from '../../../../constants/types';
 
 const ForgotPassword = ({ navigation }: AuthParamScreenProps<'forgot_password'>) => {
   const [email, setEmail] = useState('');

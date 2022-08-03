@@ -4,7 +4,7 @@ import CustomButton from '../../../components/CustomButton';
 import CustomInput from '../../../components/CustomInput';
 
 import { View } from '../../../components/Themed';
-import { AuthParamScreenProps } from '../../../types';
+import { AuthParamScreenProps } from '../../../constants/types';
 
 const SignUp = ({ navigation }: AuthParamScreenProps<'signup'>) => {
   const [username, setUser] = useState('');

@@ -12,7 +12,7 @@ import ResetPassword from '../screens/Auth/Password/ResetPassword/ResetPassword'
 import NotFound from '../screens/NotFound/NotFound';
 import LogIn from '../screens/Auth/LogIn/LogIn';
 import SignUp from '../screens/Auth/SignUp/SignUp';
-import { AuthParamList, RootParamList } from '../types';
+import { AuthParamList, RootParamList } from '../constants/types';
 import LinkingConfiguration from './LinkingConfiguration';
 import ForgotPassword from '../screens/Auth/Password/ForgotPassword/ForgotPassword';
 

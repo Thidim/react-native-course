@@ -4,7 +4,7 @@ import CustomButton from '../../../../components/CustomButton';
 import CustomInput from '../../../../components/CustomInput';
 
 import { Text, View } from '../../../../components/Themed';
-import { AuthParamScreenProps } from '../../../../types';
+import { AuthParamScreenProps } from '../../../../constants/types';
 
 const ResetPassword = ({ navigation }: AuthParamScreenProps<'forgot_password'>) => {
   const [confirmationCode, setConfirmationCode] = useState('');

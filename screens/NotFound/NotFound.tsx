@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { Text, View } from '../../components/Themed';
-import { AuthStackScreenProps } from '../../types';
+import { AuthStackScreenProps } from '../../constants/types';
 
 const NotFound = ({ navigation }: AuthStackScreenProps<'not_found'>) => {
   return (

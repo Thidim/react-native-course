@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import CustomButton from '../../../components/CustomButton';
 import CustomInput from '../../../components/CustomInput';
 import { View } from '../../../components/Themed';
-import { AuthParamScreenProps } from '../../../types';
+import { AuthParamScreenProps } from '../../../constants/types';
 
 const LogIn = ({ navigation }: AuthParamScreenProps<'login'>) => {
   const [email, setEmail] = useState('');
