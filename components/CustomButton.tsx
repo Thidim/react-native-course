@@ -2,16 +2,16 @@ import { Pressable, StyleSheet } from "react-native";
 import globalStyles from '../constants/Styles';
 import Text from "./Text/Text";
 
-const CustomButton = ({ value, submit, type = "primary", size = 'is_full', children, style }:
+const CustomButton = ({ value, submit, type = "primary", size = 'full', children, style }:
     { value: string, submit: () => void, type?: string, size?: string, children?: any, style?: object }) => {
     return (
         <Pressable
             onPress={submit}
             style={[
-                style,
                 globalStyles[size],
                 styles.button,
-                globalStyles[type]
+                globalStyles[type],
+                style
             ]}
         >
             {children}

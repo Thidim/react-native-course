@@ -2,23 +2,22 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify from 'aws-amplify';
 import config from './aws-exports';
+import { StyleSheet } from 'react-native';
 
 Amplify.configure(config);
 
 const App = () => {
   const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
 
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
+        <Navigation />
         <StatusBar />
       </SafeAreaProvider>
     );

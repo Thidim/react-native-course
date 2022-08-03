@@ -13,17 +13,30 @@ declare global {
   }
 }
 
+export type YoutubeParams = {
+  query?: string | null;
+  watch?: string | null;
+  maxResults?: number | null;
+}
+
 export type RootStackParamList = {
-  Login: undefined;
-  Signup: undefined;
-  ForgotPassword: undefined;
+  login: undefined;
+  signup: undefined;
+  forgot_password: undefined;
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  NewPassword: undefined;
+  new_password: undefined;
   NotFound: undefined;
-  ConfirmEmail: undefined;
-  Home: undefined;
-  Settings: undefined;
-  Profile: undefined;
+  confirm_email: undefined;
+  home: undefined;
+  settings: undefined;
+  profile: undefined;
+  youtube: YoutubeParams;
+};
+
+export type AppsStackParamList = {
+  home: undefined;
+  youtube: undefined;
+  Apps: NavigatorScreenParams<AppTabParamList> | undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -31,15 +44,21 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
   Screen
 >;
 
+export type AppTabParamList = {
+  home: undefined;
+  youtube: undefined;
+};
+
 export type RootTabParamList = {
-  Login: undefined;
-  Signup: undefined;
-  ForgotPassword: undefined;
-  NewPassword: undefined;
-  ConfirmEmail: undefined;
-  Home: undefined;
-  Settings: undefined;
-  Profile: undefined;
+  login: undefined;
+  youtube: undefined;
+  signup: undefined;
+  forgot_password: undefined;
+  new_password: undefined;
+  confirm_email: undefined;
+  home: undefined;
+  settings: undefined;
+  profile: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<

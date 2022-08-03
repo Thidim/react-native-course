@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
 import { FieldValues, useForm } from "react-hook-form";
 import Toast from "react-native-toast-message";
@@ -6,10 +5,12 @@ import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
 import { View } from 'react-native';
 import globalStyles from '../../constants/Styles';
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const ConfirmEmail = () => {
+    const { keepInTouch } = useContext(UserContext);
     const { control, handleSubmit } = useForm();
-    const navigation = useNavigation();
 
     const confirm = async (data: FieldValues) => {
         const { username , code } = data;
@@ -18,7 +19,7 @@ const ConfirmEmail = () => {
             await Auth.confirmSignUp(username, code)
             .then((res) => {
                 console.log(res);
-                navigation.navigate('Login');
+                keepInTouch('login');
             });
         } catch (error: any) {
             console.warn(error);
@@ -79,7 +80,7 @@ const ConfirmEmail = () => {
             />
             <CustomButton
                 value={'Back to log in'}
-                submit={() => navigation.navigate('Login')}
+                submit={() => keepInTouch('login')}
                 type={'secondary'}
             />
 

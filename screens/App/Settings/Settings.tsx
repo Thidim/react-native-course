@@ -48,23 +48,23 @@ const Settings = () => {
                         <CustomButton
                             value={t("buttons.edit")}
                             submit={() => setEdit(!editable)}
-                            size={'is_min'}
+                            size={'min'}
                         />
 
                     )}
                 </View>
                 <View style={styles.settings_data}>
-                    <View style={[styles.theme, globalStyles.is_half]}>
-                        <View style={globalStyles.is_full}>
+                    <View style={[styles.theme, globalStyles.half]}>
+                        <View style={globalStyles.full}>
                             <Text style={styles.theme_title}>{t('settings.theme')}</Text>
                         </View>
-                        <ThemeSwitch editable={editable} style={globalStyles.is_half} />
+                        <ThemeSwitch editable={editable} style={globalStyles.half} />
                     </View>
-                    <View style={[styles.lang, globalStyles.is_half]}>
-                        <View style={globalStyles.is_full}>
+                    <View style={[styles.lang, globalStyles.half]}>
+                        <View style={globalStyles.full}>
                             <Text style={styles.lang_title}>{t('settings.language')}</Text>
                         </View>
-                        <View style={[styles.lang_selector, globalStyles.is_full]}>
+                        <View style={[styles.lang_selector, globalStyles.full]}>
                             <SelectDropdown
                                 buttonTextAfterSelection={() => ''}
                                 rowTextForSelection={() => ''}
@@ -114,13 +114,13 @@ const Settings = () => {
                                     setEdit(!editable);
                                     update();
                                 }}
-                                size={'is_min'}
+                                size={'min'}
                             />
                             <CustomButton
                                 value={t("buttons.cancel")}
                                 submit={() => setEdit(!editable)}
                                 type={'editing'}
-                                size={'is_min'}
+                                size={'min'}
                             />
                         </>
                     )}

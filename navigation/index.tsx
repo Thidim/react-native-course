@@ -5,15 +5,16 @@
  */
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
+// import { BrowserRouter, Route, Switch } from 'react-middleware-router';
+import React, { useContext } from 'react';
+import { ActivityIndicator } from 'react-native';
 
 import NewPassword from '../screens/Password/NewPassword';
 import NotFoundScreen from '../screens/NotFoundScreen/';
-import LogIn from '../screens/Authentification/LogIn';
+import login from '../screens/Authentification/login';
 import SignUp from '../screens/Authentification/SignUp';
 import { RootStackParamList } from '../constants/types/types';
-import LinkingConfiguration from './LinkingConfiguration';
+import { rootLinking } from './LinkingConfiguration';
 import ForgotPassword from '../screens/Password/ForgotPassword';
 import ConfirmEmail from '../screens/ConfirmEmail/';
 import Header from '../components/Header';
@@ -24,17 +25,29 @@ import Profile from '../screens/App/Profile';
 import SettingsContextProvider from '../contexts/SettingsContext';
 import LanguageContextProvider from '../contexts/LanguageContext';
 import ThemeContextProvider from '../contexts/ThemeContext';
+import Youtube from '../screens/App/Apps/Youtube';
+import SideBar from '../components/SideBar';
+import View from '../components/View/View';
+import globalStyles from '../constants/Styles';
 
 export default function Navigation() {
+
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}>
+      linking={rootLinking}>
       <LanguageContextProvider>
         <ThemeContextProvider>
           <SettingsContextProvider>
             <UserContextProvider>
               <Header />
-              <RootNavigator />
+              <View style={[
+                globalStyles.f,
+                globalStyles.fr,
+                globalStyles.f1,
+              ]}>
+                <SideBar />
+                <RootNavigator />
+              </View>
             </UserContextProvider>
           </SettingsContextProvider>
         </ThemeContextProvider>
@@ -50,26 +63,88 @@ export default function Navigation() {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const { connected } = React.useContext(UserContext)
+  const { connected } = useContext(UserContext);
+
+  return (
+    <>
+      {connected != null ? (
+        <>
+          {!!connected ? (
+              <ConnectedNavigator />
+          ) : (
+              <DisConnectedNavigator />
+          )}
+        </>
+      ) : (
+        <ActivityIndicator size='large' style={{ margin: 'auto' }} />
+      )}
+    </>
+  )
+}
+
+const ConnectedNavigator = () => {
   return (
     <Stack.Navigator>
-        {connected ? (
-          <Stack.Group>
-            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-            <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
-            <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-            <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
-            <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
-          </Stack.Group>
-        ) : (
-          <Stack.Group>
-            <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false }} />
-            <Stack.Screen name="Signup" component={SignUp} options={{ headerShown: false }} />
-            <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{ headerShown: false }} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
-          </Stack.Group>
-        )
-        }
+      <Stack.Group>
+        <Stack.Screen
+          name="home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="settings"
+          component={Settings}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="NotFound"
+          component={NotFoundScreen}
+          options={{ title: 'Oops!' }}
+        />
+        <Stack.Screen
+          name="new_password"
+          component={NewPassword}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="profile"
+          component={Profile}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="youtube"
+          component={Youtube}
+          options={{ headerShown: false }}
+        />
+      </Stack.Group>
+    </Stack.Navigator>
+  );
+}
+const DisConnectedNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Group>
+        <Stack.Screen
+          name="login"
+          component={login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="signup"
+          component={SignUp}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="confirm_email"
+          component={ConfirmEmail}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="forgot_password"
+          component={ForgotPassword}
+          options={{ headerShown: false }}
+        />
+      </Stack.Group>
     </Stack.Navigator>
   );
 }

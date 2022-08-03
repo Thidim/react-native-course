@@ -7,7 +7,7 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import Icon from "../Icon/Icon";
 import View from "../View/View";
 
-const ThemeSwitch = ({ editable = true, style = globalStyles.is_full }: { editable?: boolean, style?: object }) => {
+const ThemeSwitch = ({ editable = true, style = globalStyles.full }: { editable?: boolean, style?: object }) => {
     const { theme, setTheme } = useContext(ThemeContext);
     const [isEnabled, setIsEnabled] = useState(theme);
 
@@ -51,7 +51,7 @@ const styles:any = StyleSheet.create({
         color: smoke,
     },
     light_false: {
-        color: 'yellow'
+        color: 'white'
     },
     dark_true: {
         color: 'white'

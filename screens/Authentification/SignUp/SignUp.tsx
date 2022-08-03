@@ -15,6 +15,7 @@ import { languageContext } from '../../../contexts/LanguageContext';
 import awsmobile from '../../../aws-exports';
 import Amplify from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import { UserContext } from '../../../contexts/UserContext';
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
@@ -29,6 +30,7 @@ const EMAIL_REGEX =
 
 const SignUp = () => {
   const { t } = useContext(languageContext);
+  const { keepInTouch } = useContext(UserContext);
   const navigation = useNavigation();
   const { control, handleSubmit, watch } = useForm();
   const passw = watch('password');
@@ -70,7 +72,7 @@ const SignUp = () => {
           fullname: name,
           settings: settings
         }));
-        navigation.navigate('ConfirmEmail');
+        keepInTouch('confirm_email');
       });
     } catch (error: any) {
       console.warn(error);
@@ -80,15 +82,15 @@ const SignUp = () => {
       });
     }
   }
-  const facebookLogin = () => {
+  const facebooklogin = () => {
     console.warn("fb");
   }
-  const googleLogin = () => {
+  const googlelogin = () => {
     // Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google });
   }
   const gotAccount = () => {
     console.warn("Got an account");
-    navigation.navigate('Login');
+    keepInTouch('login');
   }
 
 
@@ -98,26 +100,26 @@ const SignUp = () => {
       <CustomInput
         name={'name'}
         control={control}
-        placeholder={t('fullname.title')}
+        placeholder={t('profile.fullname.title')}
         rules={{
-          required: t('fullname.required'),
+          required: t('profile.fullname.required'),
         }}
       />
       <CustomInput
         name={'email'}
         control={control}
-        placeholder={t('email.title')}
+        placeholder={t('profile.email.title')}
         rules={{
-          required: t('email.required'),
+          required: t('profile.email.required'),
           pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
         }}
       />
       <CustomInput
         name={'username'}
         control={control}
-        placeholder={t('username.title')}
+        placeholder={t('profile.username.title')}
         rules={{
-          required: t('username.required'),
+          required: t('profile.username.required'),
           minLength: {
             value: 3,
             message: 'Username should be at least 3 characters long',
@@ -131,10 +133,10 @@ const SignUp = () => {
       <CustomInput
         name={'password'}
         control={control}
-        placeholder={t('password.title')}
+        placeholder={t('profile.password.title')}
         secureTextEntry
         rules={{
-          required: t('password.required'),
+          required: t('profile.password.required'),
             minLength: {
               value: 8,
               message: 'Password should be at least 8 characters long',
@@ -144,26 +146,26 @@ const SignUp = () => {
       <CustomInput
         name={'verify password'}
         control={control}
-        placeholder={t('password.confirm')}
+        placeholder={t('profile.password.confirm')}
         secureTextEntry
         rules={{
           validate: ( value: string ) => value === passw || 'Password do not match',
         }}
       />
       <CustomButton
-        value={'Sign up'}
+        value={t('auth.signup')}
         submit={handleSubmit(signup)}
       />
       {/* <CustomButton
-        value={"Login with Google"}
-        submit={googleLogin}
+        value={"login with Google"}
+        submit={googlelogin}
       /> */}
       {/* <CustomButton
-        name={"Login with Facebook"}
-        submit={googleLogin}
+        name={"login with Facebook"}
+        submit={googlelogin}
       /> */}
       <CustomButton
-        value={'Log in'}
+        value={t('auth.already')}
         submit={gotAccount}
         type={'secondary'}
       />

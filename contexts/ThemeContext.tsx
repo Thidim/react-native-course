@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { SettingsModelBase } from "../constants/types/Settings";
+import { SettingsModelBase } from "../constants/types/settings";
 
 interface DefaultThemeContext {
     theme?: boolean | null;

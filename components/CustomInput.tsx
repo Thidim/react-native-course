@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 import { StyleSheet, TextInput } from 'react-native';
-import globalStyles from '../constants/Styles';
+import globalStyles, { spacing } from '../constants/Styles';
 import { ThemeContext } from '../contexts/ThemeContext';
 import Text from './Text/Text';
 import View from './View/View';
@@ -14,6 +14,8 @@ const CustomInput = ({
     placeholder,
     secureTextEntry,
     editable,
+    style,
+    children,
   } : {
     control: Control<FieldValues, object>,
     name: string,
@@ -21,7 +23,9 @@ const CustomInput = ({
     placeholder?: string,
     secureTextEntry?: boolean,
     value?: string | null,
-    editable?: boolean
+    editable?: boolean,
+    style?: object,
+    children?: any
   }) => {
     const { theme } = useContext(ThemeContext);
 
@@ -37,9 +41,13 @@ const CustomInput = ({
               style={[
                 styles.container,
                 {borderColor: error ? 'red' : '#e8e8e8'},
+                style
               ]}>
               <TextInput
-                style={globalStyles[`text_input_${theme ? 'dark' : 'light'}`]}
+                style={[
+                  styles.input,
+                  theme && styles.dark
+                ]}
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -47,6 +55,7 @@ const CustomInput = ({
                 secureTextEntry={secureTextEntry}
                 editable={editable}
               />
+              {children}
             </View>
             {error && (
               <Text style={{color: 'red', alignSelf: 'stretch'}}>{error.message || 'Error'}</Text>
@@ -61,7 +70,6 @@ export default CustomInput;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
         width: '100%',
         maxHeight: 40,
         flex:1,
@@ -72,4 +80,12 @@ const styles = StyleSheet.create({
         padding: 10,
         marginVertical: 5,
     },
+    input: {
+      paddingLeft: spacing(4),
+      color: 'black',
+      width: "100%"
+    },
+    dark: {
+      color: 'white'
+    }
 });

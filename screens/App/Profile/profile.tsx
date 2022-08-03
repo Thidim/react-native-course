@@ -44,7 +44,7 @@ const Profile = () => {
                         <CustomButton
                             value={t("buttons.edit")}
                             submit={() => setEdit(!editable)}
-                            size={'is_min'}
+                            size={'min'}
                         />
 
                     )}
@@ -54,13 +54,13 @@ const Profile = () => {
                         value={user.fullname}
                         name={'name'}
                         control={control}
-                        placeholder={t('fullname.title')}
+                        placeholder={t('profile.fullname.title')}
                         editable={editable}
                     />
                     <CustomInput
                         name={'username'}
                         control={control}
-                        placeholder={t('username.title')}
+                        placeholder={t('profile.username.title')}
                         editable={editable}
                         value={user.username}
                     />
@@ -68,7 +68,7 @@ const Profile = () => {
                         <CustomInput
                             name={'email'}
                             control={control}
-                            placeholder={t('email.title')}
+                            placeholder={t('profile.email.title')}
                             editable={false}
                             value={user.email}
                         />
@@ -83,13 +83,13 @@ const Profile = () => {
                             <CustomButton
                                 value={t("buttons.save")}
                                 submit={handleSubmit(updateProfile)}
-                                size={'is_min'}
+                                size={'min'}
                             />
                             <CustomButton
                                 value={t("buttons.cancel")}
                                 submit={() => setEdit(!editable)}
                                 type={'editing'}
-                                size={'is_min'}
+                                size={'min'}
                             />
                         </>
                     )}

@@ -1,14 +1,22 @@
-import { useNavigation } from "@react-navigation/native";
+import { ParamListBase, useNavigation, useRoute } from "@react-navigation/native";
 import { Auth, DataStore } from "aws-amplify";
 import { createContext, useContext, useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import Toast from "react-native-toast-message";
+import { RootStackParamList } from "../constants/types/types";
 import { UserModelBase } from "../constants/types/User";
 import { User } from "../models";
 
 interface defaultUserContext {
     user: User;
-    connected: Boolean;
+    connected: boolean | null;
+    location: string;
+    params: {
+        query?: string,
+        watch?: string,
+        maxNumber?: number
+    };
+    keepInTouch: (redirect: keyof RootStackParamList, color?: string) => void;
     updateUser: ({ fullname, email, username }:
         { fullname: string, email: string, username: string }) => void;
     logIn: (data: FieldValues) => void;
@@ -17,7 +25,14 @@ interface defaultUserContext {
 
 const defaultState = {
     user: UserModelBase,
-    connected: false,
+    connected: null,
+    location: 'home',
+    params: {
+        query: undefined,
+        watch: undefined,
+        maxNumber: undefined
+    },
+    keepInTouch: () => { },
     updateUser: () => { },
     logIn: () => { },
     logOut: () => { },
@@ -27,7 +42,9 @@ export const UserContext = createContext<defaultUserContext>(defaultState);
 
 const UserContextProvider = ({ children }: { children: any }) => {
     const [user, setUser] = useState<User>(defaultState.user);
-    const [connected, setConnected] = useState<Boolean>(defaultState.connected);
+    const [location, setLocation] = useState<string>(defaultState.location);
+    const [connected, setConnected] = useState<boolean | null>(defaultState.connected);
+    const [params, setParams] = useState(defaultState.params);
     const navigation = useNavigation();
 
     const updateUser = async ({ fullname, email, username }:
@@ -57,20 +74,26 @@ const UserContextProvider = ({ children }: { children: any }) => {
         }
     }
 
+    const keepInTouch = (redirect: keyof RootStackParamList) => {
+        setLocation(redirect);
+        navigation.navigate(redirect);
+    }
+
     const checkUser = async () => {
         try {
             const cognito = await Auth.currentAuthenticatedUser();
             const queryUsers = (await DataStore.query(User))
             .filter(u => u.username !== cognito.username);
-            console.log(queryUsers[0]);
             setConnected(true);
             setUser({
                 ...UserModelBase,
                 ...queryUsers[0]
             });
+            keepInTouch(window.location.pathname.substring(1) as keyof RootStackParamList);
         } catch (error: any) {
+            setConnected(false)
             console.warn(error);
-            navigation.navigate('Login');
+            keepInTouch('login');
         }
     }
 
@@ -99,7 +122,7 @@ const UserContextProvider = ({ children }: { children: any }) => {
             });
             setConnected(false);
             setUser(UserModelBase);
-            navigation.navigate('Login');
+            keepInTouch('login');
         } catch (error: any) {
             console.warn(error.message);
             Toast.show({
@@ -116,7 +139,7 @@ const UserContextProvider = ({ children }: { children: any }) => {
 
     return (
         <UserContext.Provider value={{
-            user, connected, updateUser, logIn, logOut
+            user, connected, location, params, keepInTouch, updateUser, logIn, logOut
         }}>
             <Toast />
             {children}

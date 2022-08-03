@@ -1,29 +1,30 @@
 {
     "auth": {
         "login": "Log in",
+        "already": "I already have an account",
         "signup": "Sign up",
         "logout": "Log out",
         "forgot": "Forgot password ?",
         "noaccount": "Don't have an account ?"
     },
-    "fullname": {
-        "title": "Fullname",
-        "required": "Fullname required"
-    },
-    "username": {
-        "title": "Username",
-        "required": "Username required"
-    },
-    "email": {
-        "title": "Email",
-        "required": "Email required"
-    },
-    "password": {
-        "title": "Password",
-        "confirm": "Confirm password",
-        "required": "Password required"
-    },
     "profile": {
+        "fullname": {
+            "title": "Fullname",
+            "required": "Fullname required"
+        },
+        "username": {
+            "title": "Username",
+            "required": "Username required"
+        },
+        "email": {
+            "title": "Email",
+            "required": "Email required"
+        },
+        "password": {
+            "title": "Password",
+            "confirm": "Confirm password",
+            "required": "Password required"
+        },
         "title": "Profile",
         "updated": "Profile successfully updated !"
     },
@@ -40,5 +41,16 @@
         "save": "Save",
         "cancel": "Cancel"
     },
-    "welcome": "Hi"
+    "apps": {
+        "available apps": {
+            "title": "Available apps",
+            "warning": "No more apps available"
+        },
+        "my apps": {
+            "title": "My apps",
+            "warning": "You don't have any app !"
+        }
+    },
+    "welcome": "Hi",
+    "home": "Home"
 }

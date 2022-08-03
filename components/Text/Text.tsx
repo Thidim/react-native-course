@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import globalStyles from "../../constants/Styles"
-import { Text as TextBase } from 'react-native'
+import { StyleSheet, Text as TextBase } from 'react-native'
 import { ThemeContext } from "../../contexts/ThemeContext"
 
 const Text = ({
@@ -13,8 +13,18 @@ const Text = ({
 
     return <TextBase style={[
         style,
-        globalStyles[`text_${theme ? 'dark' : 'light'}`]
+        styles.text,
+        styles[`${theme ? 'dark' : 'light'}`]
     ]}>{children}</TextBase>
 }
 
 export default Text;
+
+const styles: any = StyleSheet.create({
+    text: {
+        maxWidth: '100%'
+    },
+    dark: {
+        color: 'white'
+    }
+});

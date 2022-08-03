@@ -7,52 +7,59 @@
 import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 
-import { RootStackParamList } from '../constants/types/types';
+import { AppsStackParamList, RootStackParamList } from '../constants/types/types';
 
-const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: [Linking.makeUrl('/')],
+const rootLinking: LinkingOptions<RootStackParamList> = {
+  prefixes: [Linking.createURL('/')],
   config: {
     screens: {
       Root: {
+        initialRouteName: 'home',
         screens: {
-          Home: {
+          home: {
             screens: {
-              Home: 'Home',
+              home: 'home',
             },
           },
-          Settings: {
+          youtube: {
+            path: 'youtube',
             screens: {
-              Settings: 'Settings',
+              youtube: 'youtube'
             },
           },
-          Profile: {
+          settings: {
             screens: {
-              Profile: 'Profile',
+              settings: 'settings',
             },
           },
-          Login: {
+          profile: {
             screens: {
-              LogIn: 'Login',
+              profile: 'profile',
             },
           },
-          Signup: {
+          login: {
             screens: {
-              SignUp: 'Signup',
+              login: 'login',
             },
           },
-          ForgotPassword: {
+          signup: {
             screens: {
-              ForgotPassword: 'ForgotPassword',
+              signup: 'signup',
             },
           },
-          NewPassword: {
+          forgot_password: {
             screens: {
-              NewPassword: 'NewPassword',
+              forgot_password: 'forgot_password',
             },
           },
-          ConfirmEmail: {
+          new_password: {
             screens: {
-              ConfirmEmail: 'ConfirmEmail',
+              new_password: 'new_password',
+            },
+          },
+          confirm_email: {
+            screens: {
+              confirm_email: 'confirm_email',
             },
           },
         },
@@ -62,4 +69,26 @@ const linking: LinkingOptions<RootStackParamList> = {
   },
 };
 
-export default linking;
+const appsLinking: LinkingOptions<AppsStackParamList> = {
+  prefixes: [Linking.createURL('/'), Linking.createURL('/apps/')],
+  config: {
+    screens: {
+      Apps: {
+        screens: {
+          home: {
+            screens: {
+              home: 'home',
+            },
+          },
+          youtube: {
+            screens: {
+              youtube: 'youtube',
+            },
+          },
+        },
+      },
+    },
+  },
+}
+
+export { rootLinking, appsLinking };

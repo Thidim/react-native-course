@@ -25,7 +25,6 @@ export const SettingsContext = createContext<DefaultSettingsContext>(defaultStat
 const SettingsContextProvider = ({ children }: { children: any }) => {
     const [settings, setSettings] = useState<Settings>(defaultState.settings);
     const { lang, setLanguage } = useContext(languageContext);
-    const navigation = useNavigation();
 
     const updateSettings = async ({ id, theme, language }:
         { id?: string, theme?: boolean | null, language?: string | null }) => {
