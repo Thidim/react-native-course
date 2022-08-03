@@ -3,25 +3,19 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+//import { FontAwesome } from '@expo/vector-icons';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { ColorSchemeName } from 'react-native';
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import NewPassword from '../screens/Password/NewPassword';
-import NotFoundScreen from '../screens/NotFoundScreen/';
-import LogIn from '../screens/Authentification/LogIn';
-import SignUp from '../screens/Authentification/SignUp';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import ForgotPassword from '../screens/Password/ForgotPassword';
-import ConfirmEmail from '../screens/ConfirmEmail/';
+import { RootParamList, AuthParamList } from '../constants/types';
+import NotFound from '../screens/NotFound';
+import LogIn from '../screens/Auth/LogIn';
+import SignUp from '../screens/Auth/SignUp';
+import NewPassword from '../screens/Auth/Password/NewPassword';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+const Navigation = ({ colorScheme }: { colorScheme: ColorSchemeName }) => {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
@@ -31,80 +25,27 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   );
 }
 
-/**
- * A root stack navigator is often used for displaying NewPasswords on top of all other content.
- * https://reactnavigation.org/docs/NewPassword
- */
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Root = createNativeStackNavigator<RootParamList>();
 
-function RootNavigator() {
+const RootNavigator = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false }} />
-      <Stack.Screen name="Signup" component={SignUp} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
-      <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{ headerShown: false }} />
-    </Stack.Navigator>
+    <Root.Navigator initialRouteName='auth' screenOptions={{ headerShown: false }}>
+      <Root.Screen name="auth" component={AuthNavigator} />
+      <Root.Screen name="not_found" component={NotFound} options={{ title: 'Oops!' }} />
+    </Root.Navigator>
   );
 }
 
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
+const Auth = createNativeStackNavigator<AuthParamList>();
 
-function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
+const AuthNavigator = () => {
   return (
-    <BottomTab.Navigator
-      initialRouteName="Login"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
-      <BottomTab.Screen
-        name="Login"
-        component={LogIn}
-        options={({ navigation }: RootTabScreenProps<'Login'>) => ({
-          title: 'Login',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('NewPassword')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
-      />
-      <BottomTab.Screen
-        name="Signup"
-        component={SignUp}
-        options={{
-          title: 'Signup',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </BottomTab.Navigator>
+    <Auth.Navigator initialRouteName='login' screenOptions={{ headerShown: false }}>
+      <Auth.Screen name="login" component={LogIn} />
+      <Auth.Screen name="signup" component={SignUp} />
+      <Auth.Screen name="new_password" component={NewPassword} />
+    </Auth.Navigator>
   );
 }
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-}
+export default Navigation;

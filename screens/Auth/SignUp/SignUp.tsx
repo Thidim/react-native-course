@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
+import React from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
 import CustomButton from '../../../components/CustomButton';
@@ -7,12 +7,12 @@ import CustomInput from '../../../components/CustomInput';
 
 import { View } from '../../../components/Themed';
 import globalStyles from '../../../constants/Styles';
+import { AuthParamScreenProps } from '../../../constants/types';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-const SignUp = () => {
-  const navigation = useNavigation();
+const SignUp = ({ navigation }: AuthParamScreenProps<'signup'>) => {
   const { control, handleSubmit, watch } = useForm();
   const passw = watch('password');
 
@@ -28,7 +28,7 @@ const SignUp = () => {
           type: 'info',
           text1: res.toString(),
         });
-        navigation.navigate('ConfirmEmail');
+        navigation.replace('confirm_email');
       });
     } catch (error: any) {
       console.warn(error);
@@ -38,15 +38,9 @@ const SignUp = () => {
       });
     }
   }
-  const facebookLogin = () => {
-    console.warn("fb");
-  }
-  const googleLogin = () => {
-    console.warn("google");
-  }
   const gotAccount = () => {
     console.warn("Got an account");
-    navigation.navigate('Login');
+    navigation.replace('login');
   }
 
 
@@ -112,14 +106,6 @@ const SignUp = () => {
         value={'Sign up'}
         submit={handleSubmit(signup)}
       />
-      {/* <CustomButton
-        name={"Login with Google"}
-        submit={facebookLogin}
-      />
-      <CustomButton
-        name={"Login with Facebook"}
-        submit={googleLogin}
-      /> */}
       <CustomButton
         value={'Log in'}
         submit={gotAccount}

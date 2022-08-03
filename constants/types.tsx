@@ -3,40 +3,27 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
+import { NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
-  }
-}
-
-export type RootStackParamList = {
-  Login: undefined;
-  Signup: undefined;
-  ForgotPassword: undefined;
-  Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  NewPassword: undefined;
-  NotFound: undefined;
-  ConfirmEmail: undefined;
+export type RootParamList = {
+  auth: NavigatorScreenParams<AuthParamList> | undefined;
+  not_found: undefined;
 };
 
-export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
-  RootStackParamList,
+export type AuthStackScreenProps<Screen extends keyof RootParamList> = NativeStackScreenProps<
+  RootParamList,
   Screen
 >;
 
-export type RootTabParamList = {
-  Login: undefined;
-  Signup: undefined;
-  ForgotPassword: undefined;
-  NewPassword: undefined;
-  ConfirmEmail: undefined;
-};
-
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<RootTabParamList, Screen>,
-  NativeStackScreenProps<RootStackParamList>
+export type AuthParamScreenProps<Screen extends keyof AuthParamList> = NativeStackScreenProps<
+  AuthParamList,
+  Screen
 >;
+
+export type AuthParamList = {
+  login: undefined;
+  signup: undefined;
+  new_password: undefined;
+  confirm_email: undefined;
+};
