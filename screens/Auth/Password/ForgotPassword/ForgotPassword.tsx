@@ -1,20 +1,17 @@
-import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Platform, StyleSheet } from 'react-native';
-import CustomButton from '../components/CustomButton';
-import CustomInput from '../components/CustomInput';
+import { StyleSheet } from 'react-native';
+import CustomButton from '../../../../components/CustomButton';
+import CustomInput from '../../../../components/CustomInput';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { View } from '../../../../components/Themed';
+import { AuthParamScreenProps } from '../../../../types';
 
-const ForgotPassword = () => {
+const ForgotPassword = ({ navigation }: AuthParamScreenProps<'forgot_password'>) => {
   const [email, setEmail] = useState('');
-  const navigation = useNavigation()
 
   const send = () => {
     console.warn("Sent");
-    navigation.navigate('ResetPassword');
+    navigation.replace('reset_password');
   }
 
   return (
@@ -28,7 +25,6 @@ const ForgotPassword = () => {
         value={"Send reset link"}
         submit={send}
       />
-
     </View>
   );
 }

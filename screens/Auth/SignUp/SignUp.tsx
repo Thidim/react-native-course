@@ -1,35 +1,27 @@
-import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import CustomButton from '../components/CustomButton';
-import CustomInput from '../components/CustomInput';
+import CustomButton from '../../../components/CustomButton';
+import CustomInput from '../../../components/CustomInput';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
+import { View } from '../../../components/Themed';
+import { AuthParamScreenProps } from '../../../types';
 
-const SignUp = () => {
+const SignUp = ({ navigation }: AuthParamScreenProps<'signup'>) => {
   const [username, setUser] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [verifyPassword, setVerifyPassword] = useState('');
-  const navigation = useNavigation();
 
   const signup = () => {
     console.warn("Signup");
   }
   const forgotPassword = () => {
     console.warn("Forgot");
-  }
-  const facebookLogin = () => {
-    console.warn("fb");
-  }
-  const googleLogin = () => {
-    console.warn("google");
+    navigation.replace('forgot_password');
   }
   const gotAccount = () => {
     console.warn("Got an account");
-    navigation.navigate('Login');
+    navigation.replace('login');
   }
 
 
@@ -66,14 +58,6 @@ const SignUp = () => {
         submit={forgotPassword}
         type={"secondary"}
       />
-      {/* <CustomButton
-        value={"Login with Google"}
-        submit={facebookLogin}
-      />
-      <CustomButton
-        value={"Login with Facebook"}
-        submit={googleLogin}
-      /> */}
       <CustomButton
         value={"Log in"}
         submit={gotAccount}

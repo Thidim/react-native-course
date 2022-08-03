@@ -7,37 +7,21 @@
 import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 
-import { RootStackParamList } from '../types';
+import { RootParamList } from '../constants/types';
 
-const linking: LinkingOptions<RootStackParamList> = {
+const linking: LinkingOptions<RootParamList> = {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
-      Root: {
+      auth: {
         screens: {
-          Login: {
-            screens: {
-              LogIn: 'Login',
-            },
-          },
-          Signup: {
-            screens: {
-              SignUp: 'Signup',
-            },
-          },
-          ForgotPassword: {
-            screens: {
-              ForgotPassword: 'ForgotPassword',
-            },
-          },
-          ResetPassword: {
-            screens: {
-              ResetPassword: 'ResetPassword',
-            },
-          },
+          login: 'auth/login',
+          signup: 'auth/signup',
+          forgot_password: 'auth/password/forgot-password',
+          reset_password: 'auth/password/reset-password',
         },
       },
-      NotFound: '*',
+      not_found: '*',
     },
   },
 };

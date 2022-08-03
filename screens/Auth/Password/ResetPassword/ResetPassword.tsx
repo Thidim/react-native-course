@@ -1,21 +1,18 @@
-import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Platform, StyleSheet } from 'react-native';
-import CustomButton from '../components/CustomButton';
-import CustomInput from '../components/CustomInput';
+import { StyleSheet } from 'react-native';
+import CustomButton from '../../../../components/CustomButton';
+import CustomInput from '../../../../components/CustomInput';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { Text, View } from '../../../../components/Themed';
+import { AuthParamScreenProps } from '../../../../types';
 
-const ResetPassword = () => {
+const ResetPassword = ({ navigation }: AuthParamScreenProps<'forgot_password'>) => {
   const [confirmationCode, setConfirmationCode] = useState('');
   const [password, setPassword] = useState('');
-  const navigation = useNavigation()
 
   const reset = () => {
     console.warn("reset");
-    navigation.navigate('Login');
+    navigation.replace('login');
   }
 
   return (

@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 
-import { Text, View } from './Themed';
+import { View } from './Themed';
 
 const CustomInput = ({ value, setValue, placeholder, secure }:
     { value: string, setValue: Dispatch<SetStateAction<string>>, placeholder: string, secure?: boolean }) => {
@@ -11,7 +11,6 @@ const CustomInput = ({ value, setValue, placeholder, secure }:
             value={value}
             onChangeText={setValue}
             placeholder={placeholder}
-            style={styles.input}
             secureTextEntry={secure}
         />
     </View>
@@ -31,8 +30,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         padding: 10,
         marginVertical: 5,
-    },
-    input: {
-
     }
 });
