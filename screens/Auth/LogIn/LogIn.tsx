@@ -12,8 +12,9 @@ const LogIn = ({ navigation }: AuthParamScreenProps<'login'>) => {
 
   const login = async (data: FieldValues) => {
     try {
-      const resp = await Auth.signIn(data.username, data.password);
-      console.log(resp);
+      {/*
+        TODO
+      */}
     } catch (error: any) {
       console.warn(error.message);
       Toast.show({

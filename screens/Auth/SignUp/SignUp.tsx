@@ -19,17 +19,9 @@ const SignUp = ({ navigation }: AuthParamScreenProps<'signup'>) => {
   const signup = async (data: FieldValues) => {
     const {username, password, email, name} = data;
     try {
-      await Auth.signUp({
-        username,
-        password,
-        attributes: {email, name, preferred_username: username},
-      }).then((res) => {
-        Toast.show({
-          type: 'info',
-          text1: res.toString(),
-        });
-        navigation.replace('confirm_email');
-      });
+      {/*
+        TODO
+      */}
     } catch (error: any) {
       console.warn(error);
       Toast.show({
