@@ -1,9 +1,7 @@
-import { CognitoUser } from 'amazon-cognito-identity-js';
-import { Auth } from 'aws-amplify';
 import { useContext } from 'react';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import CustomInput from '../../../components/CustomInput/CustomInput';
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { View } from '../../../components/Themed';
 import Toast from 'react-native-toast-message';
 import globalStyles from '../../../constants/Styles';
@@ -14,19 +12,6 @@ const LogIn = ({ navigation }: AuthParamScreenProps<'login'>) => {
   const { control, handleSubmit } = useForm();
   const { logIn } = useContext(UserContext);
 
-  const login = async (data: FieldValues) => {
-    try {
-      console.log(data);
-      await Auth.signIn(data.username, data.password)
-      .then((resp: CognitoUser) => logIn(resp))
-    } catch (error: any) {
-      console.warn(error.message);
-      Toast.show({
-        type: 'error',
-        text1: error.message.toString(),
-      })
-    }
-  }
   const forgotPassword = () => {
     console.warn("Forgot");
     navigation.replace('new_password');
@@ -58,7 +43,7 @@ const LogIn = ({ navigation }: AuthParamScreenProps<'login'>) => {
       <Toast />
       <CustomButton
         value={"Log in"}
-        submit={handleSubmit(login)}
+        submit={handleSubmit(logIn)}
       />
       <CustomButton
         value={"Forgot your password ?"}
