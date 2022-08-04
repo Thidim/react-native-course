@@ -28,30 +28,21 @@ const Header = () => {
                         <ModalMenu show={show} >
                             <CustomButton
                                 value="Profile"
-                                submit={() => {
-                                    setShow(!show)
-                                    navigation.navigate('apps', { screen: 'profile' })
-                                }}
+                                submit={() => {/* TODO */}}
                                 type="secondary"
                             >
                                 <FontAwesomeIcon icon={faUser} />
                             </CustomButton>
                             <CustomButton
                                 value="Settings"
-                                submit={() => {
-                                    setShow(!show)
-                                    navigation.navigate('apps', { screen: 'settings' })
-                                }}
+                                submit={() => {/* TODO */}}
                                 type="secondary"
                             >
                                 <FontAwesomeIcon icon={faCogs} />
                             </CustomButton>
                             <CustomButton
                                 value="Log out"
-                                submit={() => {
-                                    setShow(!show)
-                                    logOut()
-                                }}
+                                submit={() => {/* TODO */}}
                                 type="tertiary"
                             >
                                 <FontAwesomeIcon icon={faRightToBracket} />

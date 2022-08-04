@@ -4,9 +4,9 @@ const ModalMenu = ({ show, children }: { show: Boolean, children: any }) => {
     return (
         <View style={[
             styles.modal,
-            styles[show.toString()]
+            {/* TODO */}
         ]}>
-            {children}
+            {/* TODO */}
         </View>
     );
 }
