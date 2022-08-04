@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { StyleSheet } from "react-native";
 import { UserContext } from "../contexts/UserContext";
 import CustomButton from "./CustomButton";
@@ -24,7 +24,6 @@ const Header = () => {
                                     console.warn('log out');
                                     logOut();
                                 });
-                                navigation.navigate('Login');
                             }}
                             type="secondary"
                             size="is_half"
@@ -34,13 +33,13 @@ const Header = () => {
                     <>
                         <CustomButton
                             value="Log in"
-                            submit={() => navigation.navigate('Login')}
+                            submit={() => navigation.navigate('auth', { screen: 'login' })}
                             type="secondary"
                             size="is_half"
                         />
                         <CustomButton
                             value="Sign up"
-                            submit={() => navigation.navigate('Signup')}
+                            submit={() => navigation.navigate('auth', { screen: 'signup' })}
                             size="is_half"
                         />
                     </>

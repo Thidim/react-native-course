@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import { CognitoUser } from "amazon-cognito-identity-js";
 import { Auth } from "aws-amplify";
 import { createContext, useEffect, useState } from "react";
@@ -26,7 +25,6 @@ export const UserContext = createContext<defaultUserContext>(defaultState);
 const UserContextProvider = ({ children }: { children: any }) => {
     const [user, setUser] = useState(defaultState.user);
     const [connected, setConnected] = useState(defaultState.connected);
-    const navigation = useNavigation();
 
     const updateUser = ( data: CognitoUser ) => {
         setConnected(true);
@@ -58,7 +56,6 @@ const UserContextProvider = ({ children }: { children: any }) => {
                 });                
             } catch (error: any) {
                 console.warn(error);
-                navigation.navigate('Login');
             }
         }
         one();
