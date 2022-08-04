@@ -1,12 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
-import { Auth } from "aws-amplify";
 import { useContext, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { UserContext } from "../contexts/UserContext";
-import CustomButton from "./CustomButton";
-import ModalMenu from "./ModalMenu";
+import { StyleSheet } from "react-native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCogs, faRightToBracket, faUser } from "@fortawesome/free-solid-svg-icons";
+import { UserContext } from "../../contexts/UserContext";
+import CustomButton from "../CustomButton";
+import ModalMenu from "../ModalMenu";
+import { View } from "../Themed";
 
 const Header = () => {
     const { user, connected, logOut } = useContext(UserContext);
@@ -30,7 +30,7 @@ const Header = () => {
                                 value="Profile"
                                 submit={() => {
                                     setShow(!show)
-                                    navigation.navigate('Profile')
+                                    navigation.navigate('apps', { screen: 'profile' })
                                 }}
                                 type="secondary"
                             >
@@ -40,7 +40,7 @@ const Header = () => {
                                 value="Settings"
                                 submit={() => {
                                     setShow(!show)
-                                    navigation.navigate('Settings')
+                                    navigation.navigate('apps', { screen: 'settings' })
                                 }}
                                 type="secondary"
                             >
@@ -50,7 +50,7 @@ const Header = () => {
                                 value="Log out"
                                 submit={() => {
                                     setShow(!show)
-                                    logOut
+                                    logOut()
                                 }}
                                 type="tertiary"
                             >
@@ -62,13 +62,13 @@ const Header = () => {
                     <>
                         <CustomButton
                             value="Log in"
-                            submit={() => navigation.navigate('Login')}
+                            submit={() => navigation.navigate('auth', { screen: 'login' })}
                             type="secondary"
                             size="is_half"
                         />
                         <CustomButton
                             value="Sign up"
-                            submit={() => navigation.navigate('Signup')}
+                            submit={() => navigation.navigate('auth', { screen: 'signup' })}
                             size="is_half"
                         />
                     </>
@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
     header: {
         padding: 10,
         display: 'flex',
-        backgroundColor: 'white',
         alignItems: 'flex-end',
         zIndex: 1
     },

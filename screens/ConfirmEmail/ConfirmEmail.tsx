@@ -1,15 +1,14 @@
-import { useNavigation } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
 import { FieldValues, useForm } from "react-hook-form";
 import Toast from "react-native-toast-message";
-import CustomButton from "../../components/CustomButton";
-import CustomInput from "../../components/CustomInput";
+import CustomButton from "../../components/CustomButton/CustomButton";
+import CustomInput from "../../components/CustomInput/CustomInput";
 import { View } from 'react-native';
 import globalStyles from '../../constants/Styles';
+import { AuthParamScreenProps } from "../../constants/types";
 
-const ConfirmEmail = () => {
+const ConfirmEmail = ({ navigation }: AuthParamScreenProps<'confirm_email'>) => {
     const { control, handleSubmit } = useForm();
-    const navigation = useNavigation();
 
     const confirm = async (data: FieldValues) => {
         const { username , code } = data;
@@ -18,7 +17,7 @@ const ConfirmEmail = () => {
             await Auth.confirmSignUp(username, code)
             .then((res) => {
                 console.log(res);
-                navigation.navigate('Login');
+                navigation.replace('login');
             });
         } catch (error: any) {
             console.warn(error);
@@ -79,7 +78,7 @@ const ConfirmEmail = () => {
             />
             <CustomButton
                 value={'Back to log in'}
-                submit={() => navigation.navigate('Login')}
+                submit={() => navigation.replace('login')}
                 type={'secondary'}
             />
 

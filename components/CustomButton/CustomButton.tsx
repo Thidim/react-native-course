@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Pressable, StyleSheet, Text } from "react-native";
-import globalStyles from '../constants/Styles';
+import { Pressable, StyleSheet } from "react-native";
+import globalStyles from '../../constants/Styles';
+import { Text } from "../Themed";
 
 const CustomButton = ({ value, submit, type = "primary", size = 'is_full', children }:
     { value: string, submit: () => void, type?: string, size?: string, children?: any }) => {
