@@ -7,7 +7,9 @@ const CustomButton = ({ value, submit, type = "primary", size = 'is_full' }:
         <Pressable
             onPress={submit}
             style={[
-                globalStyles[size],
+                {/*
+                    TODO
+                */},
                 styles.button,
                 type === "primary" ? styles.button_primary : styles.button
             ]}

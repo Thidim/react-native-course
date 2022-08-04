@@ -20,10 +20,9 @@ const Header = () => {
                         <CustomButton
                             value="Log out"
                             submit={ async () => {
-                                await Auth.signOut().then(() => {
-                                    console.warn('log out');
-                                    logOut();
-                                });
+                                {/*
+                                    TODO
+                                */}
                             }}
                             type="secondary"
                             size="is_half"
@@ -33,7 +32,7 @@ const Header = () => {
                     <>
                         <CustomButton
                             value="Log in"
-                            submit={() => navigation.navigate('auth', { screen: 'login' })}
+                            submit={() => navigation.navigate('auth')}
                             type="secondary"
                             size="is_half"
                         />

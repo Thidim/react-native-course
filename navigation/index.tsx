@@ -37,11 +37,11 @@ const RootNavigator = () => {
   const { connected } = useContext(UserContext);
   return (
     <Root.Navigator initialRouteName='auth' screenOptions={{ headerShown: false }}>
-      {connected ? (
-        <Root.Screen name="apps" component={AppsNavigator} />
-      ) : (
-        <Root.Screen name="auth" component={AuthNavigator} />
-      )}
+      {connected && (
+        {/*
+          TODO
+        */}
+        )}
       <Root.Screen name="not_found" component={NotFound} options={{ title: 'Oops!' }} />
     </Root.Navigator>
   );

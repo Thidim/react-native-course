@@ -35,5 +35,5 @@ export type AuthParamList = {
 };
 
 export type AppsParamList = {
-  home: { username: string };
+  home: undefined;
 };

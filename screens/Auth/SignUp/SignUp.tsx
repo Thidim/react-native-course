@@ -1,4 +1,4 @@
-import { Auth, DataStore } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import React from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
@@ -20,7 +20,6 @@ const SignUp = ({ navigation }: AuthParamScreenProps<'signup'>) => {
 
   const createUser = async (values: User) => (
     console.log(values)
-    // await DataStore.save(new User({ ...values }))
   )
   
   const signup = async (data: FieldValues) => {
