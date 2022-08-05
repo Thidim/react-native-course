@@ -1,13 +1,13 @@
 import { ReactChild, ReactFragment, ReactPortal, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Image, StyleSheet, Switch, Text, View } from "react-native";
+import { Image, StyleSheet, Switch } from "react-native";
 import CustomButton from "../../../components/CustomButton";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import globalStyles from "../../../constants/Styles";
-import { UserContext } from "../../../contexts/UserContext";
 import SelectDropdown from "react-native-select-dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { Text, View } from "../../../components/Themed";
 
 const countriesWithFlags = [
     { title: 'France', image: require('../../../assets/images/fr.png') },
@@ -15,11 +15,10 @@ const countriesWithFlags = [
 ];
 
 const Settings = () => {
-    const { user } = useContext(UserContext);
     const [editable, setEdit] = useState<boolean>(false);
     const { control, handleSubmit } = useForm();
     const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
     return (
         <View style={[
             globalStyles.container,
@@ -49,7 +48,11 @@ const Settings = () => {
                         style={styles.switch}
                         trackColor={{ false: "#767577", true: "#81b0ff" }}
                         thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                        onValueChange={toggleSwitch}
+                        onValueChange={() => {
+                            if (editable) {
+                                setIsEnabled(!isEnabled)
+                            }
+                        }}
                         value={isEnabled}
                     />
                 </View>
@@ -58,36 +61,40 @@ const Settings = () => {
                         <Text style={styles.lang_title}>Language</Text>
                     </View>
                     <View style={[styles.lang_selector, globalStyles.is_full]}>
-                        <SelectDropdown
-                            data={countriesWithFlags}
-                            onSelect={(selectedItem: any, index: any) => {
-                                console.log(selectedItem, index);
-                            }}
-                            buttonStyle={styles.dropdown3BtnStyle}
-                            renderCustomizedButtonChild={(selectedItem: { image: any; title: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; }, index: any) => {
-                                return (
-                                    <View style={styles.dropdown3BtnChildStyle}>
-                                        {selectedItem ? (
-                                            <Image source={selectedItem.image} style={styles.dropdown3BtnImage} />
-                                        ) : (
-                                            <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
-                                        )}
-                                        <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select country'}</Text>
-                                        <FontAwesomeIcon icon={faChevronDown} />
-                                    </View>
-                                );
-                            }}
-                            dropdownStyle={styles.dropdown3DropdownStyle}
-                            rowStyle={styles.dropdown3RowStyle}
-                            renderCustomizedRowChild={(item: { image: any; title: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; }, index: any) => {
-                                return (
-                                    <View style={styles.dropdown3RowChildStyle}>
-                                        <Image source={item.image} style={styles.dropdownRowImage} />
-                                        <Text style={styles.dropdown3RowTxt}>{item.title}</Text>
-                                    </View>
-                                );
-                            }}
-                        />
+                        {editable &&
+                            <SelectDropdown
+                                data={countriesWithFlags}
+                                rowTextForSelection={(a:any, b:number): string => {return ''}}
+                                buttonTextAfterSelection={(a:any, b:number): string => {return ''}}
+                                onSelect={(selectedItem: any, index: any) => {
+                                    console.log(selectedItem, index);
+                                }}
+                                buttonStyle={styles.dropdown3BtnStyle}
+                                renderCustomizedButtonChild={(selectedItem: { image: any; title: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; }, index: any) => {
+                                    return (
+                                        <View style={styles.dropdown3BtnChildStyle}>
+                                            {selectedItem ? (
+                                                <Image source={selectedItem.image} style={styles.dropdown3BtnImage} />
+                                            ) : (
+                                                <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
+                                            )}
+                                            <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select country'}</Text>
+                                            <FontAwesomeIcon icon={faChevronDown} />
+                                        </View>
+                                    );
+                                }}
+                                dropdownStyle={styles.dropdown3DropdownStyle}
+                                rowStyle={styles.dropdown3RowStyle}
+                                renderCustomizedRowChild={(item: { image: any; title: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; }, index: any) => {
+                                    return (
+                                        <View style={styles.dropdown3RowChildStyle}>
+                                            <Image source={item.image} style={styles.dropdownRowImage} />
+                                            <Text style={styles.dropdown3RowTxt}>{item.title}</Text>
+                                        </View>
+                                    );
+                                }}
+                            />
+                        }
                     </View>
                 </View>
             </View>

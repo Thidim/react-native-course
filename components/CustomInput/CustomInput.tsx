@@ -1,10 +1,12 @@
 import { Control, Controller, FieldValues } from 'react-hook-form';
-import { StyleSheet, TextInput, Text, View } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
+import { Text, View } from '../Themed';
 
 const CustomInput = ({
     control,
     name,
     rules = {},
+    value,
     placeholder,
     secureTextEntry,
     editable,
@@ -12,6 +14,7 @@ const CustomInput = ({
     control: Control<FieldValues, object>,
     name: string,
     rules?: object,
+    value?: string | null,
     placeholder?: string | null,
     secureTextEntry?: boolean,
     editable?: boolean
@@ -20,6 +23,7 @@ const CustomInput = ({
       <Controller
         control={control}
         name={name}
+        defaultValue={value}
         rules={rules}
         render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
           <>
@@ -32,7 +36,7 @@ const CustomInput = ({
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                placeholder={placeholder}
+                placeholder={placeholder || value}
                 secureTextEntry={secureTextEntry}
                 editable={editable}
               />
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         width: '100%',
-        height: 40,
+        maxHeight: 40,
         flex:1,
         borderColor: '#e8e8e8',
         borderWidth: 1,

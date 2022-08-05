@@ -1,10 +1,11 @@
-import { faCircleCheck, faCircleXmark, faL } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useContext, useState } from "react";
-import { set, useForm } from "react-hook-form";
-import { StyleSheet, Text, View } from "react-native";
+import { useForm } from "react-hook-form";
+import { StyleSheet } from "react-native";
 import CustomButton from "../../../components/CustomButton";
 import CustomInput from "../../../components/CustomInput";
+import { Text, View } from "../../../components/Themed";
 import globalStyles from "../../../constants/Styles";
 import { UserContext } from "../../../contexts/UserContext";
 
@@ -35,12 +36,14 @@ const Profile = () => {
                     control={control}
                     placeholder={user.fullname}
                     editable={editable}
+                    value={user.fullname}
                 />
                 <CustomInput
                     name={'Username'}
                     control={control}
                     placeholder={user.username}
                     editable={editable}
+                    value={user.username}
                 />
                 <View style={styles.email_info}>
                     <CustomInput
@@ -48,6 +51,7 @@ const Profile = () => {
                         control={control}
                         placeholder={user.email}
                         editable={false}
+                        value={user.email}
                     />
                     <FontAwesomeIcon
                         style={[styles.email_valid, user.confirmedEmail ? styles.yes : styles.no]}
