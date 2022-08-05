@@ -28,14 +28,7 @@ const SettingsContextProvider = ({ children }: { children: any }) => {
     const updateSettings = async ({ id, theme, language }:
         { id?: string, theme?: boolean | null, language?: string | null }) => {
         try {
-            const settings = await DataStore.query(Settings, (u) => u.id('eq', id || '' ));
-            const newSettings = await DataStore.save(
-                Settings.copyOf(settings[0], updated => {
-                    updated.theme = theme,
-                    updated.language = language
-                })
-            )
-            setSettings(newSettings);
+            {/* TODO */}
             console.log('Settings Updated');
             Toast.show({
                 type: 'info',
@@ -52,9 +45,7 @@ const SettingsContextProvider = ({ children }: { children: any }) => {
 
     const checkSettings = async () => {
         try {
-            const cognito = await Auth.currentAuthenticatedUser();
-            const querySettings = (await DataStore.query(User))
-            .filter(u => u.username !== cognito.username);
+            {/* TODO */}
             setSettings({
                 ...SettingsModelBase,
                 ...querySettings[0].settings
@@ -65,7 +56,7 @@ const SettingsContextProvider = ({ children }: { children: any }) => {
     }
 
     useEffect(() => {
-            checkSettings();
+        checkSettings();
     }, [])
 
     return (

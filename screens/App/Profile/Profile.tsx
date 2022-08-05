@@ -79,7 +79,7 @@ const Profile = ({ navigation }: AppsParamScreenProps<'profile'>) => {
                     <>
                         <CustomButton
                             value={"Save"}
-                            submit={handleSubmit(updateProfile)}
+                            submit={{/* TODO */}}
                             size={'is_min'}
                         />
                         <CustomButton

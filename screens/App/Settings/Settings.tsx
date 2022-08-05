@@ -23,11 +23,7 @@ const Settings = () => {
     const [isEnabled, setIsEnabled] = useState(settings.theme);
 
     const update = () => {
-        updateSettings({
-            id: settings.id,
-            theme: isEnabled,
-            language: lang
-        });
+        {/* TODO */}
         Toast.show({
             type: 'info',
             text1: 'Settings successfully updated'
