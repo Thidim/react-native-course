@@ -1,15 +1,17 @@
-import { useNavigation } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
+import { useContext } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import Toast from "react-native-toast-message";
-import CustomButton from "../../components/CustomButton";
-import CustomInput from "../../components/CustomInput";
-import { View } from 'react-native';
+import CustomButton from "../../components/CustomButton/CustomButton";
+import CustomInput from "../../components/CustomInput/CustomInput";
+import { View } from "../../components/Themed";
 import globalStyles from '../../constants/Styles';
+import { AuthParamScreenProps } from "../../constants/types";
+import { UserContext } from "../../contexts/UserContext";
 
-const ConfirmEmail = () => {
+const ConfirmEmail = ({ navigation }: AuthParamScreenProps<'confirm_email'>) => {
     const { control, handleSubmit } = useForm();
-    const navigation = useNavigation();
+    const { user, updateUser } = useContext(UserContext);
 
     const confirm = async (data: FieldValues) => {
         const { username , code } = data;
@@ -18,7 +20,11 @@ const ConfirmEmail = () => {
             await Auth.confirmSignUp(username, code)
             .then((res) => {
                 console.log(res);
-                navigation.navigate('Login');
+                updateUser({
+                    ...user,
+                    ...res,
+                })
+                navigation.replace('login');
             });
         } catch (error: any) {
             console.warn(error);
@@ -79,7 +85,7 @@ const ConfirmEmail = () => {
             />
             <CustomButton
                 value={'Back to log in'}
-                submit={() => navigation.navigate('Login')}
+                submit={() => navigation.replace('login')}
                 type={'secondary'}
             />
 

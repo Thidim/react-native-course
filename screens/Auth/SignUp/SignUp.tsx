@@ -1,24 +1,24 @@
-import { useNavigation } from '@react-navigation/native';
 import { Auth, DataStore } from 'aws-amplify';
+import React from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
-import CustomButton from '../../../components/CustomButton';
-import CustomInput from '../../../components/CustomInput';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import CustomInput from '../../../components/CustomInput/CustomInput';
 
-import { View } from 'react-native';
-import { SettingsModelBase } from '../../../constants/Settings';
 import globalStyles from '../../../constants/Styles';
 import { UserModelBase } from '../../../constants/User';
+import { AuthParamScreenProps } from '../../../constants/types';
 import { Settings, User } from '../../../models';
+import { SettingsModelBase } from '../../../constants/Settings';
+import { View } from '../../../components/Themed';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-const SignUp = () => {
-  const navigation = useNavigation();
+const SignUp = ({ navigation }: AuthParamScreenProps<'signup'>) => {
   const { control, handleSubmit, watch } = useForm();
   const passw = watch('password');
-
+  
   const signup = async (data: FieldValues) => {
     const {username, password, email, name} = data;
     try {
@@ -27,6 +27,10 @@ const SignUp = () => {
         password,
         attributes: {email, name, preferred_username: username},
       }).then(async () => {
+        Toast.show({
+          type: 'info',
+          text1: 'Welcome, ' + username,
+        });
         const settings = await DataStore.save(new Settings({ ...SettingsModelBase }));
         await DataStore.save(new User({
           ...UserModelBase,
@@ -35,7 +39,7 @@ const SignUp = () => {
           fullname: name,
           settings: settings
         }));
-        navigation.navigate('ConfirmEmail');
+        navigation.replace('confirm_email');
       });
     } catch (error: any) {
       console.warn(error);
@@ -45,15 +49,9 @@ const SignUp = () => {
       });
     }
   }
-  const facebookLogin = () => {
-    console.warn("fb");
-  }
-  const googleLogin = () => {
-    console.warn("google");
-  }
   const gotAccount = () => {
     console.warn("Got an account");
-    navigation.navigate('Login');
+    navigation.replace('login');
   }
 
 
@@ -119,14 +117,6 @@ const SignUp = () => {
         value={'Sign up'}
         submit={handleSubmit(signup)}
       />
-      {/* <CustomButton
-        name={"Login with Google"}
-        submit={facebookLogin}
-      />
-      <CustomButton
-        name={"Login with Facebook"}
-        submit={googleLogin}
-      /> */}
       <CustomButton
         value={'Log in'}
         submit={gotAccount}
