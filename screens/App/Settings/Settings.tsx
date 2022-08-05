@@ -70,26 +70,19 @@ const Settings = () => {
                                     console.log(selectedItem, index);
                                 }}
                                 buttonStyle={styles.dropdown3BtnStyle}
-                                renderCustomizedButtonChild={(selectedItem: { image: any; title: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; }, index: any) => {
+                                renderCustomizedButtonChild={(selectedItem: { image: any; title?: string | null }, index: any) => {
                                     return (
                                         <View style={styles.dropdown3BtnChildStyle}>
-                                            {selectedItem ? (
-                                                <Image source={selectedItem.image} style={styles.dropdown3BtnImage} />
-                                            ) : (
-                                                <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
-                                            )}
-                                            <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select country'}</Text>
-                                            <FontAwesomeIcon icon={faChevronDown} />
+                                            {/* TODO */}
                                         </View>
                                     );
                                 }}
                                 dropdownStyle={styles.dropdown3DropdownStyle}
                                 rowStyle={styles.dropdown3RowStyle}
-                                renderCustomizedRowChild={(item: { image: any; title: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; }, index: any) => {
+                                renderCustomizedRowChild={(item: { image: any; title?: string | null }, index: any) => {
                                     return (
                                         <View style={styles.dropdown3RowChildStyle}>
-                                            <Image source={item.image} style={styles.dropdownRowImage} />
-                                            <Text style={styles.dropdown3RowTxt}>{item.title}</Text>
+                                            {/* TODO */}
                                         </View>
                                     );
                                 }}

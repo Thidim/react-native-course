@@ -6,7 +6,6 @@ const CustomInput = ({
     control,
     name,
     rules = {},
-    value,
     placeholder,
     secureTextEntry,
     editable,
@@ -14,7 +13,6 @@ const CustomInput = ({
     control: Control<FieldValues, object>,
     name: string,
     rules?: object,
-    value?: string | null,
     placeholder?: string | null,
     secureTextEntry?: boolean,
     editable?: boolean
@@ -23,7 +21,6 @@ const CustomInput = ({
       <Controller
         control={control}
         name={name}
-        defaultValue={value}
         rules={rules}
         render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
           <>

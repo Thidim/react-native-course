@@ -36,14 +36,12 @@ const Profile = () => {
                     control={control}
                     placeholder={user.fullname}
                     editable={editable}
-                    value={user.fullname}
                 />
                 <CustomInput
                     name={'Username'}
                     control={control}
                     placeholder={user.username}
                     editable={editable}
-                    value={user.username}
                 />
                 <View style={styles.email_info}>
                     <CustomInput
@@ -51,11 +49,11 @@ const Profile = () => {
                         control={control}
                         placeholder={user.email}
                         editable={false}
-                        value={user.email}
                     />
                     <FontAwesomeIcon
-                        style={[styles.email_valid, user.confirmedEmail ? styles.yes : styles.no]}
-                        icon={user.confirmedEmail ? faCircleCheck : faCircleXmark} />
+                        style={{/* TODO */}}
+                        icon={{/* TODO */}}
+                    />
                 </View>
             </View>
             <View style={styles.save_buttons}>
