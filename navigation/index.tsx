@@ -28,14 +28,12 @@ const Navigation = ({ colorScheme }: { colorScheme: ColorSchemeName }) => {
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme} >
-      <LanguageContextProvider>
-        <SettingsContextProvider>
-          <UserContextProvider>
-            <Header />
-            <RootNavigator />
-          </UserContextProvider>
-        </SettingsContextProvider>
-      </LanguageContextProvider>
+      <SettingsContextProvider>
+        <UserContextProvider>
+          <Header />
+          <RootNavigator />
+        </UserContextProvider>
+      </SettingsContextProvider>
     </NavigationContainer>
   );
 }

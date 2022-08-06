@@ -4,9 +4,6 @@ import { createContext, useEffect, useState } from 'react';
 import en from '../constants/locales/en.json';
 import fr from '../constants/locales/fr.json';
 
-i18n.defaultLocale = 'en';
-i18n.translations = { en, fr };
-
 const tGetters: any = {
     en: () => en,
     fr: () => fr
@@ -34,13 +31,11 @@ const LanguageContextProvider = ({ children }: { children: any }) => {
     }
 
     const setI18nConfig = (lang: string) => {
-        i18n.locale = lang;
-        setLang(i18n.locale);
+        {/* TODO */}
     }
     
     const t = memoize(
-        (key, config) => i18n.t(key, config),
-        (key, config) => (config ? key + JSON.stringify(config) : key)
+        {/* TODO */}
     );    
 
     useEffect(() => {
