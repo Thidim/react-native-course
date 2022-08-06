@@ -1,11 +1,12 @@
 import { Control, Controller, FieldValues } from 'react-hook-form';
-import { StyleSheet, TextInput, Text, View } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
+import { Text, View } from '../Themed';
 
 const CustomInput = ({
     control,
     name,
-    value,
     rules = {},
+    value,
     placeholder,
     secureTextEntry,
     editable,
@@ -13,9 +14,9 @@ const CustomInput = ({
     control: Control<FieldValues, object>,
     name: string,
     rules?: object,
-    placeholder?: string,
-    secureTextEntry?: boolean,
     value?: string | null,
+    placeholder?: string | null,
+    secureTextEntry?: boolean,
     editable?: boolean
   }) => {
     return (
@@ -35,7 +36,7 @@ const CustomInput = ({
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                placeholder={placeholder}
+                placeholder={placeholder || value}
                 secureTextEntry={secureTextEntry}
                 editable={editable}
               />

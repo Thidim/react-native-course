@@ -1,27 +1,26 @@
-import { useNavigation } from '@react-navigation/native';
 import { Auth, DataStore } from 'aws-amplify';
+import React, { useContext } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
-import CustomButton from '../../../components/CustomButton';
-import CustomInput from '../../../components/CustomInput';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import CustomInput from '../../../components/CustomInput/CustomInput';
 
-import { View } from 'react-native';
-import { SettingsModelBase } from '../../../constants/types/Settings';
 import globalStyles from '../../../constants/Styles';
-import { UserModelBase } from '../../../constants/types/User';
 import { Settings, User } from '../../../models';
-import { useContext } from 'react';
+import { View } from '../../../components/Themed';
+import { AuthParamScreenProps } from '../../../constants/types/types';
+import { SettingsModelBase } from '../../../constants/types/Settings';
+import { UserModelBase } from '../../../constants/types/User';
 import { languageContext } from '../../../contexts/LanguageContext';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-const SignUp = () => {
-  const { t } = useContext(languageContext);
-  const navigation = useNavigation();
+const SignUp = ({ navigation }: AuthParamScreenProps<'signup'>) => {
   const { control, handleSubmit, watch } = useForm();
+  const { t } = useContext(languageContext);
   const passw = watch('password');
-
+  
   const signup = async (data: FieldValues) => {
     const {username, password, email, name} = data;
     try {
@@ -30,6 +29,10 @@ const SignUp = () => {
         password,
         attributes: {email, name, preferred_username: username},
       }).then(async () => {
+        Toast.show({
+          type: 'info',
+          text1: 'Welcome, ' + username,
+        });
         const settings = await DataStore.save(new Settings({ ...SettingsModelBase }));
         await DataStore.save(new User({
           ...UserModelBase,
@@ -38,7 +41,7 @@ const SignUp = () => {
           fullname: name,
           settings: settings
         }));
-        navigation.navigate('ConfirmEmail');
+        navigation.replace('confirm_email');
       });
     } catch (error: any) {
       console.warn(error);
@@ -48,15 +51,9 @@ const SignUp = () => {
       });
     }
   }
-  const facebookLogin = () => {
-    console.warn("fb");
-  }
-  const googleLogin = () => {
-    console.warn("google");
-  }
   const gotAccount = () => {
     console.warn("Got an account");
-    navigation.navigate('Login');
+    navigation.replace('login');
   }
 
 
@@ -122,14 +119,6 @@ const SignUp = () => {
         value={'Sign up'}
         submit={handleSubmit(signup)}
       />
-      <CustomButton
-        value={"Login with Google"}
-        submit={googleLogin}
-      />
-      {/* <CustomButton
-        name={"Login with Facebook"}
-        submit={googleLogin}
-      /> */}
       <CustomButton
         value={'Log in'}
         submit={gotAccount}

@@ -1,16 +1,18 @@
-import { faCircleCheck, faCircleXmark, faL } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import React, { useContext, useState } from "react";
-import { FieldValues, set, useForm } from "react-hook-form";
-import { StyleSheet, Text, View } from "react-native";
+import { useContext, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { StyleSheet } from "react-native";
+import Toast from "react-native-toast-message";
 import CustomButton from "../../../components/CustomButton";
 import CustomInput from "../../../components/CustomInput";
-import Toast from 'react-native-toast-message';
+import { Text, View } from "../../../components/Themed";
 import globalStyles from "../../../constants/Styles";
 import { UserContext } from "../../../contexts/UserContext";
 import { languageContext } from "../../../contexts/LanguageContext";
+import { AppsParamScreenProps } from "../../../constants/types/types";
 
-const Profile = () => {
+const Profile = ({ navigation }: AppsParamScreenProps<'profile'>) => {
     const { user, updateUser } = useContext(UserContext);
     const { t } = useContext(languageContext);
     const [editable, setEdit] = useState<boolean>(false);
@@ -43,7 +45,6 @@ const Profile = () => {
                         submit={() => setEdit(!editable)}
                         size={'is_min'}
                     />
-
                 )}
             </View>
             <View style={styles.profile_data}>
@@ -70,8 +71,9 @@ const Profile = () => {
                         value={user.email}
                     />
                     <FontAwesomeIcon
-                        style={[styles.email_valid, user.confirmedEmail ? styles.yes : styles.no ]}
-                        icon={user.confirmedEmail ? faCircleCheck : faCircleXmark} />
+                        style={[styles.email_valid, user.confirmedEmail ? styles.yes : styles.no]}
+                        icon={user.confirmedEmail ? faCircleCheck : faCircleXmark}
+                    />
                 </View>
             </View>
             <View style={styles.save_buttons}>

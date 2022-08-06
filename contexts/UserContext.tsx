@@ -1,6 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
 import { Auth, DataStore } from "aws-amplify";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import Toast from "react-native-toast-message";
 import { UserModelBase } from "../constants/types/User";
@@ -26,9 +25,8 @@ const defaultState = {
 export const UserContext = createContext<defaultUserContext>(defaultState);
 
 const UserContextProvider = ({ children }: { children: any }) => {
-    const [user, setUser] = useState<User>(defaultState.user);
-    const [connected, setConnected] = useState<Boolean>(defaultState.connected);
-    const navigation = useNavigation();
+    const [user, setUser] = useState(defaultState.user);
+    const [connected, setConnected] = useState(defaultState.connected);
 
     const updateUser = async ({ fullname, email, username }:
         { fullname: string, email: string, username: string }) => {
@@ -70,7 +68,6 @@ const UserContextProvider = ({ children }: { children: any }) => {
             });
         } catch (error: any) {
             console.warn(error);
-            navigation.navigate('Login');
         }
     }
 
@@ -99,7 +96,6 @@ const UserContextProvider = ({ children }: { children: any }) => {
             });
             setConnected(false);
             setUser(UserModelBase);
-            navigation.navigate('Login');
         } catch (error: any) {
             console.warn(error.message);
             Toast.show({

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Image, StyleSheet, Switch, Text, View } from "react-native";
+import { Image, StyleSheet, Switch } from "react-native";
 import CustomButton from "../../../components/CustomButton";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import globalStyles from "../../../constants/Styles";
@@ -10,6 +10,7 @@ import { SettingsContext } from "../../../contexts/SettingsContext";
 import { Country } from "../../../constants/types/Country";
 import Toast from "react-native-toast-message";
 import { languageContext } from "../../../contexts/LanguageContext";
+import { Text, View } from "../../../components/Themed";
 
 const countriesWithFlags: Country[] = [
     { id: 'fr', title: 'France', image: require('../../../assets/images/fr.png') },
@@ -22,9 +23,7 @@ const Settings = () => {
     const { lang, setLanguage, t } = useContext(languageContext);
     const [isEnabled, setIsEnabled] = useState(settings.theme);
 
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
-    const update  = () => {
+    const update = () => {
         updateSettings({
             id: settings.id,
             theme: isEnabled,
@@ -65,8 +64,9 @@ const Settings = () => {
                             trackColor={{ false: "#767577", true: "#81b0ff" }}
                             thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
                             onValueChange={() => {
-                                if (editable)
-                                    toggleSwitch()
+                                if (editable) {
+                                    setIsEnabled(!isEnabled)
+                                }
                             }}
                             value={isEnabled || false}
                         />
@@ -78,46 +78,49 @@ const Settings = () => {
                         <Text style={styles.lang_title}>{t('settings.language')}</Text>
                     </View>
                     <View style={[styles.lang_selector, globalStyles.is_full]}>
-                        <SelectDropdown
-                            buttonTextAfterSelection={() => ''}
-                            rowTextForSelection={() => ''}
-                            data={countriesWithFlags}
-                            defaultValue={lang === 'fr'
-                                ? { id: 'fr', title: 'France', image: require('../../../assets/images/fr.png') }
-                                : { id: 'en', title: 'England', image: require('../../../assets/images/en.png') }}
-                            onSelect={(selectedItem: any, index: any) => {
-                                console.log(selectedItem, index);
-                                setLanguage(selectedItem.id);
-                            }}
-                            buttonStyle={styles.dropdown3BtnStyle}
-                            renderCustomizedButtonChild={(selectedItem: { image: any; title: any; }, index: any) => {
-                                if (editable)
+                        {editable &&
+                            <SelectDropdown
+                                data={countriesWithFlags}
+                                rowTextForSelection={(a:any, b:number): string => {return ''}}
+                                buttonTextAfterSelection={(a:any, b:number): string => {return ''}}
+                                defaultValue={lang === 'fr'
+                                    ? { id: 'fr', title: 'France', image: require('../../../assets/images/fr.png') }
+                                    : { id: 'en', title: 'England', image: require('../../../assets/images/en.png') }}
+                                onSelect={(selectedItem: any, index: any) => {
+                                    console.log(selectedItem, index);
+                                    setLang(selectedItem.id);
+                                }}
+                                buttonStyle={styles.dropdown3BtnStyle}
+                                renderCustomizedButtonChild={(selectedItem: { image: any; title: any; }, index: any) => {
+                                    if (editable)
+                                        return (
+                                            <View style={styles.dropdown3BtnChildStyle}>
+                                                {selectedItem ? (
+                                                    <Image source={selectedItem.image} style={styles.dropdown3BtnImage} />
+                                                ) : (
+                                                    <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
+                                                )}
+                                                <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select country'}</Text>
+                                                <FontAwesomeIcon icon={faChevronDown} />
+                                            </View>
+                                        );
+                                }}
+                                dropdownStyle={styles.dropdown3DropdownStyle}
+                                rowStyle={styles.dropdown3RowStyle}
+                                renderCustomizedRowChild={(item: { image: any; title: any; }, index: any) => {
                                     return (
-                                        <View style={styles.dropdown3BtnChildStyle}>
-                                            {selectedItem ? (
-                                                <Image source={selectedItem.image} style={styles.dropdown3BtnImage} />
-                                            ) : (
-                                                <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
-                                            )}
-                                            <Text style={styles.dropdown3BtnTxt}>{selectedItem ? selectedItem.title : 'Select country'}</Text>
-                                            <FontAwesomeIcon icon={faChevronDown} />
+                                        <View style={styles.dropdown3RowChildStyle}>
+                                            <Image source={item.image} style={styles.dropdownRowImage} />
+                                            <Text style={styles.dropdown3RowTxt}>{item.title}</Text>
                                         </View>
                                     );
-                            }}
-                            dropdownStyle={styles.dropdown3DropdownStyle}
-                            rowStyle={styles.dropdown3RowStyle}
-                            renderCustomizedRowChild={(item: { image: any; title: any; }, index: any) => {
-                                return (
-                                    <View style={styles.dropdown3RowChildStyle}>
-                                        <Image source={item.image} style={styles.dropdownRowImage} />
-                                        <Text style={styles.dropdown3RowTxt}>{item.title}</Text>
-                                    </View>
-                                );
-                            }}
-                        />
-                    </View>
-                </View>
-            </View>
+                                }}
+                            />
+
+                        }
+                    </View >
+                </View >
+            </View >
             <View style={styles.save_buttons}>
                 {editable && (
                     <>
@@ -138,7 +141,7 @@ const Settings = () => {
                     </>
                 )}
             </View>
-        </View>
+        </View >
     );
 }
 

@@ -1,13 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
-import { Auth } from "aws-amplify";
 import { useContext, useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { UserContext } from "../contexts/UserContext";
-import CustomButton from "./CustomButton";
-import ModalMenu from "./ModalMenu";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faChevronDown, faChevronUp, faCogs, faHome, faRightToBracket, faUser, faUserGear } from "@fortawesome/free-solid-svg-icons";
-import { languageContext } from "../contexts/LanguageContext";
+import { faChevronDown, faChevronUp, faCogs, faHome, faRightToBracket, faUser } from "@fortawesome/free-solid-svg-icons";
+import { UserContext } from "../../contexts/UserContext";
+import CustomButton from "../CustomButton";
+import ModalMenu from "../ModalMenu";
+import { View } from "../Themed";
+import { languageContext } from "../../contexts/LanguageContext";
 
 const Header = () => {
     const { user, connected, logOut } = useContext(UserContext);
@@ -17,7 +17,7 @@ const Header = () => {
 
     return (
         <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity onPress={() => navigation.navigate('apps', { screen: 'home' })}>
                 <FontAwesomeIcon
                     style={{ margin: 'auto' }}
                     size={30}
@@ -41,7 +41,7 @@ const Header = () => {
                                 value={t("profile.title")}
                                 submit={() => {
                                     setShow(!show)
-                                    navigation.navigate('Profile')
+                                    navigation.navigate('apps', { screen: 'profile' })
                                 }}
                                 type="secondary"
                             >
@@ -51,7 +51,7 @@ const Header = () => {
                                 value={t("settings.title")}
                                 submit={() => {
                                     setShow(!show)
-                                    navigation.navigate('Settings')
+                                    navigation.navigate('apps', { screen: 'settings' })
                                 }}
                                 type="secondary"
                             >
@@ -73,13 +73,13 @@ const Header = () => {
                     <>
                         <CustomButton
                             value={t("auth.login")}
-                            submit={() => navigation.navigate('Login')}
+                            submit={() => navigation.navigate('auth', { screen: 'login' })}
                             type="secondary"
                             size="is_min"
                         />
                         <CustomButton
                             value={t("auth.signup")}
-                            submit={() => navigation.navigate('Signup')}
+                            submit={() => navigation.navigate('auth', { screen: 'signup' })}
                             size="is_min"
                         />
                     </>
@@ -96,9 +96,7 @@ const styles = StyleSheet.create({
         padding: 10,
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: 'white',
         justifyContent: 'space-between',
-        // alignItems: 'flex-end',
         zIndex: 1
     },
     connection: {

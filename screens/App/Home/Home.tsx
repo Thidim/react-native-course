@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Text, View } from "react-native";
+import { Text, View } from "../../../components/Themed";
 import globalStyles from "../../../constants/Styles";
 import { UserContext } from "../../../contexts/UserContext";
 
