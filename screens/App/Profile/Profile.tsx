@@ -4,15 +4,16 @@ import { FieldValues, useForm } from "react-hook-form";
 import { StyleSheet } from "react-native";
 import CustomButton from "../../../components/CustomButton";
 import CustomInput from "../../../components/CustomInput";
-import Toast from 'react-native-toast-message';
 import globalStyles from "../../../constants/Styles";
 import { UserContext } from "../../../contexts/UserContext";
 import { languageContext } from "../../../contexts/LanguageContext";
 import View from "../../../components/View/View";
 import Text from "../../../components/Text/Text";
 import Icon from "../../../components/Icon/Icon";
+import { AppsParamScreenProps } from "../../../constants/types/types";
+import Toast from "react-native-toast-message";
 
-const Profile = () => {
+const Profile = ({ navigation }: AppsParamScreenProps<'profile'>) => {
     const { user, updateUser } = useContext(UserContext);
     const { t } = useContext(languageContext);
     const [editable, setEdit] = useState<boolean>(false);
@@ -32,7 +33,7 @@ const Profile = () => {
     }
 
     return (
-        <View style={globalStyles.inner}>
+        <View style={globalStyles.wrapper}>
             <View style={[
                 globalStyles.container,
                 styles.profile
@@ -46,7 +47,6 @@ const Profile = () => {
                             submit={() => setEdit(!editable)}
                             size={'min'}
                         />
-
                     )}
                 </View>
                 <View style={styles.profile_data}>
@@ -74,7 +74,8 @@ const Profile = () => {
                         />
                         <Icon
                             style={[styles.email_valid, user.confirmedEmail ? styles.yes : styles.no]}
-                            icon={user.confirmedEmail ? faCircleCheck : faCircleXmark} />
+                            icon={user.confirmedEmail ? faCircleCheck : faCircleXmark}
+                        />
                     </View>
                 </View>
                 <View style={styles.save_buttons}>
@@ -104,7 +105,7 @@ export default Profile;
 const styles = StyleSheet.create({
     profile: {
         boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-        width: 600,
+        width: '100%',
         padding: 20,
         margin: 'auto'
     },

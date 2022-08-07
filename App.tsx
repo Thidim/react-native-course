@@ -5,7 +5,6 @@ import useCachedResources from './hooks/useCachedResources';
 import Navigation from './navigation';
 import Amplify from 'aws-amplify';
 import config from './aws-exports';
-import { StyleSheet } from 'react-native';
 
 Amplify.configure(config);
 

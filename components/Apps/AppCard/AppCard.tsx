@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import globalStyles from "../../../constants/Styles";
 import { App } from "../../../constants/types/Apps";
+import { AuthParamList, AppsParamList } from "../../../constants/types/types";
 import { UserContext } from "../../../contexts/UserContext";
 import CustomButton from "../../CustomButton";
 import Icon from "../../Icon/Icon";
@@ -11,7 +12,7 @@ const AppCard = ({ app }: { app: App }) => {
     return (
         <CustomButton
             value=""
-            submit={() => keepInTouch(app.location, app.color)}
+            submit={() => keepInTouch('apps', app.location as keyof AuthParamList | keyof AppsParamList)}
             style={[
                 globalStyles.app_card,
                 { borderColor: app.color, boxShadow: `0 4px 8px 0 ${app.color}` }

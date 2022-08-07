@@ -2,12 +2,17 @@ import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react";
 import { StyleSheet, Switch } from "react-native";
 import globalStyles, { smoke, smoky } from "../../constants/Styles";
-import { languageContext } from "../../contexts/LanguageContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import Icon from "../Icon/Icon";
 import View from "../View/View";
 
-const ThemeSwitch = ({ editable = true, style = globalStyles.full }: { editable?: boolean, style?: object }) => {
+const ThemeSwitch = ({
+    editable = true,
+    style = globalStyles.full
+}: {
+    editable?: boolean,
+    style?: object
+}) => {
     const { theme, setTheme } = useContext(ThemeContext);
     const [isEnabled, setIsEnabled] = useState(theme);
 
@@ -15,8 +20,9 @@ const ThemeSwitch = ({ editable = true, style = globalStyles.full }: { editable?
         setTheme(!isEnabled);
         setIsEnabled(!isEnabled);
     };
+
     return (
-        <View style={[styles.theme_mode, style]}>
+        <View style={[styles.theme_mode, globalStyles.full, style]}>
             <Icon icon={faSun} style={styles[`light_${isEnabled}`]} />
             <Switch
                 style={styles.switch}

@@ -1,5 +1,5 @@
 import { faEye, faThumbsDown, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
-import { StyleSheet } from "react-native";
+import { StyleSheet, useWindowDimensions } from "react-native";
 import globalStyles, { blueEye, fontSize, greenLike, redDislike, spacing } from "../../../../constants/Styles";
 import { Snippet, Statistics } from "../../../../constants/types/Youtube";
 import Icon from "../../../Icon/Icon";
@@ -15,15 +15,17 @@ const YoutubeVideoInfos = ({
     statistics?: Statistics | null,
     description?: boolean | null
 }) => {
+    const { width } = useWindowDimensions();
     return (
         <View style={[
             styles.infos,
             globalStyles.f1,
             description ? globalStyles.fsa : globalStyles.fs,
-            { width: '100%' }
+            { width: '100%', minWidth: 250 }
         ]}>
             <Text style={[
                     description ? globalStyles.fontS6 : globalStyles.fontS4,
+                    width < 600 ? globalStyles.fontS2 : globalStyles.fontS4,
                     globalStyles.oh
                 ]}>{snippet?.title}</Text>
             <View style={[

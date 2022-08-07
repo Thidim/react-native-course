@@ -1,19 +1,20 @@
 import { useContext, useEffect, useState } from "react";
 import { Pressable, StyleSheet, useWindowDimensions } from "react-native";
-import { UserContext } from "../contexts/UserContext";
-import CustomButton from "./CustomButton";
-import ModalMenu from "./ModalMenu";
 import { faBars, faChevronDown, faChevronUp, faCogs, faHome, faRightToBracket, faUser } from "@fortawesome/free-solid-svg-icons";
-import { languageContext } from "../contexts/LanguageContext";
-import View from "./View/View";
-import Icon from "./Icon/Icon";
-import globalStyles from "../constants/Styles";
-import { ThemeContext } from "../contexts/ThemeContext";
-import ThemeSwitch from "./ThemeSwitch/ThemeSwitch";
-import { SearchInput } from "./Apps/Youtube/SearchInput";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { RootParamScreenProps } from "../../constants/types/types";
+import { UserContext } from "../../contexts/UserContext";
+import { languageContext } from "../../contexts/LanguageContext";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import View from "../View/View";
+import globalStyles from "../../constants/Styles";
+import Icon from "../Icon/Icon";
+import { SearchInput } from "../Apps/Youtube/SearchInput";
+import CustomButton from "../CustomButton";
+import ThemeSwitch from "../ThemeSwitch/ThemeSwitch";
+import ModalMenu from "../ModalMenu";
 
-const Header = () => {
+const Header = ({ navigation }: RootParamScreenProps<'not_found'>) => {
     const { user, connected, location, keepInTouch, logOut } = useContext(UserContext);
     const [show, setShow] = useState<Boolean>(false);
     const { t } = useContext(languageContext);
@@ -32,7 +33,7 @@ const Header = () => {
                     {yt ? (
                         <Pressable
                             style={{ width: 120 }}
-                            onPress={() => keepInTouch('youtube')}
+                            onPress={() => keepInTouch('apps', 'youtube')}
                         >
                             <Icon
                                 style={{ margin: 'auto', color: 'red' }}
@@ -43,7 +44,7 @@ const Header = () => {
                     ) : (
                         <Pressable
                             style={{ width: 120 }}
-                            onPress={() => keepInTouch('home')}
+                            onPress={() => keepInTouch('apps', 'home')}
                         >
                             <Icon
                                 style={{ margin: 'auto' }}
@@ -80,13 +81,13 @@ const Header = () => {
                     <>
                         <CustomButton
                             value={t("auth.login")}
-                            submit={() => keepInTouch('login')}
+                            submit={() => keepInTouch('auth', 'login')}
                             type="secondary"
                             size="min"
                         />
                         <CustomButton
                             value={t("auth.signup")}
-                            submit={() => keepInTouch('signup')}
+                            submit={() => keepInTouch('auth', 'signup')}
                             size="min"
                         />
                     </>
@@ -95,12 +96,12 @@ const Header = () => {
                     show={show}
                     style={globalStyles[`modal_menu_${theme ? 'dark' : 'light'}`]}
                 >
-                    {width <= 360 && !!connected || yt &&
+                    {width <= 360 && !!connected &&
                         <CustomButton
                             value={t("home")}
                             submit={() => {
                                 setShow(!show)
-                                keepInTouch('home')
+                                keepInTouch('apps', 'home')
                             }}
                             type="secondary"
                         >
@@ -113,7 +114,7 @@ const Header = () => {
                                 value={t("profile.title")}
                                 submit={() => {
                                     setShow(!show)
-                                    keepInTouch('profile')
+                                    keepInTouch('apps', 'profile')
                                 }}
                                 type="secondary"
                             >
@@ -123,7 +124,7 @@ const Header = () => {
                                 value={t("settings.title")}
                                 submit={() => {
                                     setShow(!show)
-                                    keepInTouch('settings')
+                                    keepInTouch('apps', 'settings')
                                 }}
                                 type="secondary"
                             >
@@ -164,9 +165,9 @@ const styles = StyleSheet.create({
     header: {
         width: '100%',
         padding: 10,
+        minHeight: 80,
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: 'white',
         justifyContent: 'space-between',
         zIndex: 2
     },

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import View from "./View/View";
+import View from "../View/View";
 
 const ModalMenu = ({ show, children, style }: { show: Boolean, children: any, style?: object }) => {
     return (

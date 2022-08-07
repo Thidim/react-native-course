@@ -6,89 +6,32 @@
 
 import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
+import { RootParamList } from '../constants/types/types';
 
-import { AppsStackParamList, RootStackParamList } from '../constants/types/types';
 
-const rootLinking: LinkingOptions<RootStackParamList> = {
-  prefixes: [Linking.createURL('/')],
+const linking: LinkingOptions<RootParamList> = {
+  prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
-      Root: {
-        initialRouteName: 'home',
+      auth: {
         screens: {
-          home: {
-            screens: {
-              home: 'home',
-            },
-          },
-          youtube: {
-            path: 'youtube',
-            screens: {
-              youtube: 'youtube'
-            },
-          },
-          settings: {
-            screens: {
-              settings: 'settings',
-            },
-          },
-          profile: {
-            screens: {
-              profile: 'profile',
-            },
-          },
-          login: {
-            screens: {
-              login: 'login',
-            },
-          },
-          signup: {
-            screens: {
-              signup: 'signup',
-            },
-          },
-          forgot_password: {
-            screens: {
-              forgot_password: 'forgot_password',
-            },
-          },
-          new_password: {
-            screens: {
-              new_password: 'new_password',
-            },
-          },
-          confirm_email: {
-            screens: {
-              confirm_email: 'confirm_email',
-            },
-          },
+          login: 'auth/login',
+          signup: 'auth/signup',
+          new_password: 'auth/password/new-password',
+          confirm_email: 'auth/email/confirm-email',
         },
       },
-      NotFound: '*',
+      apps: {
+        screens: {
+          home: 'dashboard',
+          profile: 'dashboard/profile',
+          settings: 'dashboard/settings',
+          youtube: 'apps/youtube',
+        },
+      },
+      not_found: '*',
     },
   },
 };
 
-const appsLinking: LinkingOptions<AppsStackParamList> = {
-  prefixes: [Linking.createURL('/'), Linking.createURL('/apps/')],
-  config: {
-    screens: {
-      Apps: {
-        screens: {
-          home: {
-            screens: {
-              home: 'home',
-            },
-          },
-          youtube: {
-            screens: {
-              youtube: 'youtube',
-            },
-          },
-        },
-      },
-    },
-  },
-}
-
-export { rootLinking, appsLinking };
+export default linking;

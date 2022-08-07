@@ -12,7 +12,7 @@ const apps: App[] = [
         location: 'youtube',
         icon: faYoutube,
         color: 'red',
-        owned: false
+        owned: true
     },
     {
         title: 'Facebook',
@@ -36,7 +36,7 @@ const Home = () => {
 
     return (
         <View style={[
-            globalStyles.inner,
+            globalStyles.wrapper,
             globalStyles.f,
             globalStyles.fr
         ]}>

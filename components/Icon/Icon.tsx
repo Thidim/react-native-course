@@ -18,6 +18,7 @@ const Icon = ({
     return <FontAwesomeIcon
                 icon={icon}
                 style={[
+                    globalStyles.my,
                     globalStyles[`icon_${theme ? 'dark' : 'light'}`],
                     style
                 ]}

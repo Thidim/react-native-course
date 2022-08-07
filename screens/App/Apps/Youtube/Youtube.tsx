@@ -210,14 +210,13 @@ const Youtube = () => {
             ]}>
                 {videos != [] ? (
                     videos.map((video: YoutubeSearchVideo, index: any) => {
-                        switch (query) {
-                            case null:
-                                return <CardItem key={index} {...video} submit={() => watching(video.id)} />
-
-                            default:
-                                return <ListItem key={index} {...video} submit={() => watching(video.id)} description={!!watch} />
+                            return query == null
+                            ? <CardItem key={index} {...video} submit={() => watching(video.id)} />
+                            : width <= 360
+                            ? <CardItem key={index} {...video} submit={() => watching(video.id)} />
+                            : <ListItem key={index} {...video} submit={() => watching(video.id)} description={!!watch} />
                         }
-                    })
+                    )
                 ) : (
                     watch == null && <ActivityIndicator size='large' style={{ margin: 'auto' }} />
                 )}

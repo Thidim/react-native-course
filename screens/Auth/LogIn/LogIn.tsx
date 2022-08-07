@@ -1,46 +1,34 @@
-import { useNavigation } from '@react-navigation/native';
 import { useContext } from 'react';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import CustomInput from '../../../components/CustomInput/CustomInput';
 import { useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
-import CustomButton from '../../../components/CustomButton';
-import CustomInput from '../../../components/CustomInput';
-
 import globalStyles from '../../../constants/Styles';
 import { UserContext } from '../../../contexts/UserContext';
 import { languageContext } from '../../../contexts/LanguageContext';
+import { AuthParamScreenProps } from '../../../constants/types/types';
 import View from '../../../components/View/View';
 
-const LogIn = () => {
+const LogIn = ({ navigation }: AuthParamScreenProps<'login'>) => {
   const { control, handleSubmit } = useForm();
   const { logIn, keepInTouch } = useContext(UserContext);
   const { t } = useContext(languageContext);
 
   const forgotPassword = () => {
     console.warn("Forgot");
-    keepInTouch('forgot_password');
-  }
-  const facebookLogin = () => {
-    console.warn("fb");
-  }
-  const googleLogin = () => {
-    console.warn("google");
+    keepInTouch('auth', 'new_password');
   }
   const noAccount = () => {
     console.warn("No account yet");
-    keepInTouch('signup');
+    keepInTouch('auth', 'signup');
   }
 
   return (
     <View style={[
-      globalStyles.inner,
+      globalStyles.wrapper,
       globalStyles.f,
       globalStyles.fr
     ]}>
-      <View style={[
-        globalStyles.section,
-        globalStyles.f,
-        globalStyles.f1
-      ]}>
         <View style={globalStyles.container}>
           <CustomInput
             name={'username'}
@@ -75,7 +63,6 @@ const LogIn = () => {
             type={"secondary"}
           />
         </View>
-      </View>
     </View>
   );
 }

@@ -1,9 +1,9 @@
-import { ParamListBase, useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { Auth, DataStore } from "aws-amplify";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import Toast from "react-native-toast-message";
-import { RootStackParamList } from "../constants/types/types";
+import { AppsParamList, AuthParamList, RootParamList } from "../constants/types/types";
 import { UserModelBase } from "../constants/types/User";
 import { User } from "../models";
 
@@ -16,7 +16,7 @@ interface defaultUserContext {
         watch?: string,
         maxNumber?: number
     };
-    keepInTouch: (redirect: keyof RootStackParamList, color?: string) => void;
+    keepInTouch: (stack: keyof RootParamList, redirect: keyof AppsParamList | keyof AuthParamList) => void;
     updateUser: ({ fullname, email, username }:
         { fullname: string, email: string, username: string }) => void;
     logIn: (data: FieldValues) => void;
@@ -74,9 +74,9 @@ const UserContextProvider = ({ children }: { children: any }) => {
         }
     }
 
-    const keepInTouch = (redirect: keyof RootStackParamList) => {
+    const keepInTouch = (stack: keyof RootParamList, redirect: keyof AuthParamList | keyof AppsParamList) => {
         setLocation(redirect);
-        navigation.navigate(redirect);
+        navigation.navigate(stack, { screen: redirect });
     }
 
     const checkUser = async () => {
@@ -89,11 +89,11 @@ const UserContextProvider = ({ children }: { children: any }) => {
                 ...UserModelBase,
                 ...queryUsers[0]
             });
-            keepInTouch(window.location.pathname.substring(1) as keyof RootStackParamList);
+            keepInTouch('apps', window.location.pathname.substring(1) as keyof AuthParamList | keyof AppsParamList);
         } catch (error: any) {
             setConnected(false)
             console.warn(error);
-            keepInTouch('login');
+            keepInTouch('auth', 'login');
         }
     }
 
@@ -122,7 +122,7 @@ const UserContextProvider = ({ children }: { children: any }) => {
             });
             setConnected(false);
             setUser(UserModelBase);
-            keepInTouch('login');
+            keepInTouch('auth', 'login');
         } catch (error: any) {
             console.warn(error.message);
             Toast.show({

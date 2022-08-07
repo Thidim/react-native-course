@@ -15,8 +15,6 @@ const ListItem = (
 }) => {
     const { width } = useWindowDimensions();
 
-    console.log('ListItem', description, snippet?.description);
-
     return (
         <Pressable
             onPress={submit}

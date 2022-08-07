@@ -64,9 +64,8 @@ export const fontSize = (n: number) => {
 const globalStyles: any = StyleSheet.create({
     primary,
     wrapper: {
-        width: '100%'
-    },
-    inner: {
+        flex: 1,
+        width: '100%',
         height: '100%',
     },
     container: {
@@ -121,9 +120,6 @@ const globalStyles: any = StyleSheet.create({
     icon_light: {
         color: 'grey',
     },
-    section: {
-        width: '100%',
-    },
     section_title: {
         fontSize: 50,
         fontWeight: 'bold',
@@ -151,6 +147,7 @@ const globalStyles: any = StyleSheet.create({
     mx3: { marginHorizontal: spacing(3) },
     mx4: { marginHorizontal: spacing(4) },
     mx5: { marginHorizontal: spacing(5) },
+    my: { marginVertical: spacing(0) },
     my1: { marginVertical: spacing(1) },
     my2: { marginVertical: spacing(2) },
     my3: { marginVertical: spacing(3) },

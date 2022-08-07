@@ -37,14 +37,14 @@ const SideBar = () => {
                     </CustomButton>
                     <CustomButton
                         value={show ? t("profile.title") : ""}
-                        submit={() => keepInTouch('profile')}
+                        submit={() => keepInTouch('apps', 'profile')}
                         type="secondary"
                     >
                         <Icon icon={faUser} />
                     </CustomButton>
                     <CustomButton
                         value={show ? t("settings.title") : ""}
-                        submit={() => keepInTouch('settings')}
+                        submit={() => keepInTouch('apps', 'settings')}
                         type="secondary"
                     >
                         <Icon icon={faCogs} />
