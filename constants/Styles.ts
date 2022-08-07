@@ -13,7 +13,6 @@ const primary = {
     fontWeight: 'bold',
 }
 
-
 const globalStyles: any = StyleSheet.create({
     primary,
     inner: {
