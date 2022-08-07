@@ -4,15 +4,16 @@ import { FieldValues, useForm } from "react-hook-form";
 import { StyleSheet } from "react-native";
 import CustomButton from "../../../components/CustomButton";
 import CustomInput from "../../../components/CustomInput";
-import Toast from 'react-native-toast-message';
 import globalStyles from "../../../constants/Styles";
 import { UserContext } from "../../../contexts/UserContext";
 import { languageContext } from "../../../contexts/LanguageContext";
 import View from "../../../components/View/View";
 import Text from "../../../components/Text/Text";
 import Icon from "../../../components/Icon/Icon";
+import { AppsParamScreenProps } from "../../../constants/types/types";
+import Toast from "react-native-toast-message";
 
-const Profile = () => {
+const Profile = ({ navigation }: AppsParamScreenProps<'profile'>) => {
     const { user, updateUser } = useContext(UserContext);
     const { t } = useContext(languageContext);
     const [editable, setEdit] = useState<boolean>(false);

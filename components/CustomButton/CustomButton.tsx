@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet } from "react-native";
-import globalStyles from '../constants/Styles';
-import Text from "./Text/Text";
+import globalStyles from "../../constants/Styles";
+import Text from "../Text/Text";
 
 const CustomButton = ({ value, submit, type = "primary", size = 'is_full', children, style }:
     { value: string, submit: () => void, type?: string, size?: string, children?: any, style?: object }) => {

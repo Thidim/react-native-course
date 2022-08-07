@@ -1,29 +1,27 @@
-import { useNavigation } from "@react-navigation/native";
-import { Auth } from "aws-amplify";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { UserContext } from "../contexts/UserContext";
-import CustomButton from "./CustomButton";
-import ModalMenu from "./ModalMenu";
-import { faChevronDown, faChevronUp, faCogs, faHome, faRightToBracket, faUser, faUserGear } from "@fortawesome/free-solid-svg-icons";
-import { languageContext } from "../contexts/LanguageContext";
-import View from "./View/View";
-import Icon from "./Icon/Icon";
-import globalStyles from "../constants/Styles";
-import { ThemeContext } from "../contexts/ThemeContext";
-import ThemeSwitch from "./ThemeSwitch/ThemeSwitch";
+import { faChevronDown, faChevronUp, faCogs, faHome, faRightToBracket, faUser } from "@fortawesome/free-solid-svg-icons";
+import { UserContext } from "../../contexts/UserContext";
+import globalStyles from "../../constants/Styles";
+import { languageContext } from "../../contexts/LanguageContext";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import View from "../View/View";
+import Icon from "../Icon/Icon";
+import CustomButton from "../CustomButton";
+import ModalMenu from "../ModalMenu";
+import ThemeSwitch from "../ThemeSwitch/ThemeSwitch";
+import { RootParamScreenProps } from "../../constants/types/types";
 
-const Header = () => {
+const Header = ({ navigation }: RootParamScreenProps<'not_found'>) => {
     const { user, connected, logOut } = useContext(UserContext);
     const [show, setShow] = useState<Boolean>(false);
     const { t } = useContext(languageContext);
     const { theme } = useContext(ThemeContext);
-    const navigation = useNavigation();
 
     return (
         <View style={[styles.header, globalStyles[`header_${theme ? 'dark' : 'light'}`]]}>
             <TouchableOpacity
-                onPress={() => navigation.navigate('Home')}
+                onPress={() => navigation.navigate('apps', { screen : 'home' })}
             >
                 <Icon
                     style={{ margin: 'auto' }}
@@ -54,7 +52,7 @@ const Header = () => {
                                 value={t("profile.title")}
                                 submit={() => {
                                     setShow(!show)
-                                    navigation.navigate('Profile')
+                                    navigation.navigate('apps', { screen: 'profile' })
                                 }}
                                 type="secondary"
                             >
@@ -64,7 +62,7 @@ const Header = () => {
                                 value={t("settings.title")}
                                 submit={() => {
                                     setShow(!show)
-                                    navigation.navigate('Settings')
+                                    navigation.navigate('apps', { screen: 'settings' })
                                 }}
                                 type="secondary"
                             >
@@ -87,13 +85,13 @@ const Header = () => {
                     <>
                         <CustomButton
                             value={t("auth.login")}
-                            submit={() => navigation.navigate('Login')}
+                            submit={() => navigation.navigate('auth', { screen: 'login' })}
                             type="secondary"
                             size="is_min"
                         />
                         <CustomButton
                             value={t("auth.signup")}
-                            submit={() => navigation.navigate('Signup')}
+                            submit={() => navigation.navigate('auth', { screen: 'signup' })}
                             size="is_min"
                         />
                     </>
@@ -110,7 +108,6 @@ const styles = StyleSheet.create({
         padding: 10,
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: 'white',
         justifyContent: 'space-between',
         zIndex: 1
     },

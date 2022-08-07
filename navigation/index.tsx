@@ -5,30 +5,29 @@
  */
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
 
-import NewPassword from '../screens/Password/NewPassword';
-import NotFoundScreen from '../screens/NotFoundScreen/';
-import LogIn from '../screens/Authentification/LogIn';
-import SignUp from '../screens/Authentification/SignUp';
-import { RootStackParamList } from '../constants/types/types';
-import LinkingConfiguration from './LinkingConfiguration';
-import ForgotPassword from '../screens/Password/ForgotPassword';
-import ConfirmEmail from '../screens/ConfirmEmail/';
 import Header from '../components/Header';
 import UserContextProvider, { UserContext } from '../contexts/UserContext';
 import Home from '../screens/App/Home';
-import Settings from '../screens/App/Settings';
 import Profile from '../screens/App/Profile';
+import LinkingConfiguration from './LinkingConfiguration';
+import { RootParamList, AuthParamList, AppsParamList } from '../constants/types/types';
+import NotFound from '../screens/NotFound';
+import LogIn from '../screens/Auth/LogIn';
+import SignUp from '../screens/Auth/SignUp';
+import NewPassword from '../screens/Auth/Password/NewPassword';
+import { useContext } from 'react';
+import Settings from '../screens/App/Settings';
+import ConfirmEmail from '../screens/ConfirmEmail';
 import SettingsContextProvider from '../contexts/SettingsContext';
 import LanguageContextProvider from '../contexts/LanguageContext';
 import ThemeContextProvider from '../contexts/ThemeContext';
 
-export default function Navigation() {
+const Navigation = () => {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}>
+      linking={LinkingConfiguration}
+    >
       <LanguageContextProvider>
         <ThemeContextProvider>
           <SettingsContextProvider>
@@ -43,33 +42,45 @@ export default function Navigation() {
   );
 }
 
-/**
- * A root stack navigator is often used for displaying NewPasswords on top of all other content.
- * https://reactnavigation.org/docs/NewPassword
- */
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Root = createNativeStackNavigator<RootParamList>();
 
-function RootNavigator() {
-  const { connected } = React.useContext(UserContext)
+const RootNavigator = () => {
+  const { connected } = useContext(UserContext);
   return (
-    <Stack.Navigator>
-        {connected ? (
-          <Stack.Group>
-            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-            <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
-            <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-            <Stack.Screen name="NewPassword" component={NewPassword} options={{ headerShown: false }} />
-            <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
-          </Stack.Group>
-        ) : (
-          <Stack.Group>
-            <Stack.Screen name="Login" component={LogIn} options={{ headerShown: false }} />
-            <Stack.Screen name="Signup" component={SignUp} options={{ headerShown: false }} />
-            <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} options={{ headerShown: false }} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
-          </Stack.Group>
-        )
-        }
-    </Stack.Navigator>
+    <Root.Navigator initialRouteName='auth' screenOptions={{ headerShown: false }}>
+      {connected ? (
+        <Root.Screen name="apps" component={AppsNavigator} />
+      ) : (
+        <Root.Screen name="auth" component={AuthNavigator} />
+      )}
+      <Root.Screen name="not_found" component={NotFound} options={{ title: 'Oops!' }} />
+    </Root.Navigator>
   );
 }
+
+const Auth = createNativeStackNavigator<AuthParamList>();
+
+const AuthNavigator = () => {
+  return (
+    <Auth.Navigator initialRouteName='login' screenOptions={{ headerShown: false }}>
+      <Auth.Screen name="login" component={LogIn} />
+      <Auth.Screen name="signup" component={SignUp} />
+      <Auth.Screen name="new_password" component={NewPassword} />
+      <Auth.Screen name="confirm_email" component={ConfirmEmail} />
+    </Auth.Navigator>
+  );
+}
+
+const Apps = createNativeStackNavigator<AppsParamList>();
+
+const AppsNavigator = () => {
+  return (
+    <Apps.Navigator initialRouteName='home' screenOptions={{ headerShown: false }}>
+      <Apps.Screen name='home' component={Home} />
+      <Apps.Screen name='profile' component={Profile} />
+      <Apps.Screen name='settings' component={Settings} />
+    </Apps.Navigator>
+  );
+}
+
+export default Navigation;

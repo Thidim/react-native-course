@@ -1,34 +1,26 @@
-import { useNavigation } from '@react-navigation/native';
 import { useContext } from 'react';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import CustomInput from '../../../components/CustomInput/CustomInput';
 import { useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
-import CustomButton from '../../../components/CustomButton';
-import CustomInput from '../../../components/CustomInput';
-
-import { Text, View } from 'react-native';
 import globalStyles from '../../../constants/Styles';
 import { UserContext } from '../../../contexts/UserContext';
 import { languageContext } from '../../../contexts/LanguageContext';
+import { AuthParamScreenProps } from '../../../constants/types/types';
+import View from '../../../components/View/View';
 
-const LogIn = () => {
-  const navigation = useNavigation();
+const LogIn = ({ navigation }: AuthParamScreenProps<'login'>) => {
   const { control, handleSubmit } = useForm();
   const { logIn } = useContext(UserContext);
-  const { t, lang } = useContext(languageContext);
+  const { t } = useContext(languageContext);
 
   const forgotPassword = () => {
     console.warn("Forgot");
-    navigation.navigate('ForgotPassword');
-  }
-  const facebookLogin = () => {
-    console.warn("fb");
-  }
-  const googleLogin = () => {
-    console.warn("google");
+    navigation.replace('new_password');
   }
   const noAccount = () => {
     console.warn("No account yet");
-    navigation.navigate('Signup');
+    navigation.replace('signup');
   }
 
   return (
@@ -60,14 +52,6 @@ const LogIn = () => {
         submit={forgotPassword}
         type={"secondary"}
       />
-      {/* <CustomButton
-        value={"Login with Google"}
-        submit={facebookLogin}
-      />
-      <CustomButton
-        value={"Login with Facebook"}
-        submit={googleLogin}
-      /> */}
       <CustomButton
         value={t("auth.noaccount")}
         submit={noAccount}

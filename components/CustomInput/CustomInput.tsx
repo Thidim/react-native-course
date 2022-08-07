@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 import { StyleSheet, TextInput } from 'react-native';
-import globalStyles from '../constants/Styles';
-import { ThemeContext } from '../contexts/ThemeContext';
-import Text from './Text/Text';
-import View from './View/View';
+import globalStyles from '../../constants/Styles';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import Text from '../Text/Text';
+import View from '../View/View';
 
 const CustomInput = ({
     control,
     name,
-    value,
     rules = {},
+    value,
     placeholder,
     secureTextEntry,
     editable,
@@ -18,9 +18,9 @@ const CustomInput = ({
     control: Control<FieldValues, object>,
     name: string,
     rules?: object,
-    placeholder?: string,
-    secureTextEntry?: boolean,
     value?: string | null,
+    placeholder?: string | null,
+    secureTextEntry?: boolean,
     editable?: boolean
   }) => {
     const { theme } = useContext(ThemeContext);
@@ -43,7 +43,7 @@ const CustomInput = ({
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                placeholder={placeholder}
+                placeholder={placeholder || value}
                 secureTextEntry={secureTextEntry}
                 editable={editable}
               />

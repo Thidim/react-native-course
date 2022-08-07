@@ -2,7 +2,6 @@ import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react";
 import { StyleSheet, Switch } from "react-native";
 import globalStyles, { smoke, smoky } from "../../constants/Styles";
-import { languageContext } from "../../contexts/LanguageContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import Icon from "../Icon/Icon";
 import View from "../View/View";

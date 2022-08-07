@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, Switch } from "react-native";
 import CustomButton from "../../../components/CustomButton";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import globalStyles from "../../../constants/Styles";
@@ -60,15 +60,12 @@ const Settings = () => {
                         </View>
                         <ThemeSwitch editable={editable} style={globalStyles.is_half} />
                     </View>
-                    <View style={[styles.lang, globalStyles.is_half]}>
-                        <View style={globalStyles.is_full}>
-                            <Text style={styles.lang_title}>{t('settings.language')}</Text>
-                        </View>
-                        <View style={[styles.lang_selector, globalStyles.is_full]}>
+                    <View style={[styles.lang_selector, globalStyles.is_full]}>
+                        {editable &&
                             <SelectDropdown
-                                buttonTextAfterSelection={() => ''}
-                                rowTextForSelection={() => ''}
                                 data={countriesWithFlags}
+                                rowTextForSelection={(a: any, b: number): string => { return '' }}
+                                buttonTextAfterSelection={(a: any, b: number): string => { return '' }}
                                 defaultValue={lang === 'fr'
                                     ? { id: 'fr', title: 'France', image: require('../../../assets/images/fr.png') }
                                     : { id: 'en', title: 'England', image: require('../../../assets/images/en.png') }}
@@ -102,29 +99,29 @@ const Settings = () => {
                                     );
                                 }}
                             />
-                        </View>
+                        }
                     </View>
                 </View>
-                <View style={styles.save_buttons}>
-                    {editable && (
-                        <>
-                            <CustomButton
-                                value={t("buttons.save")}
-                                submit={() => {
-                                    setEdit(!editable);
-                                    update();
-                                }}
-                                size={'is_min'}
-                            />
-                            <CustomButton
-                                value={t("buttons.cancel")}
-                                submit={() => setEdit(!editable)}
-                                type={'editing'}
-                                size={'is_min'}
-                            />
-                        </>
-                    )}
-                </View>
+            </View>
+            <View style={styles.save_buttons}>
+                {editable && (
+                    <>
+                        <CustomButton
+                            value={t("buttons.save")}
+                            submit={() => {
+                                setEdit(!editable);
+                                update();
+                            }}
+                            size={'is_min'}
+                        />
+                        <CustomButton
+                            value={t("buttons.cancel")}
+                            submit={() => setEdit(!editable)}
+                            type={'editing'}
+                            size={'is_min'}
+                        />
+                    </>
+                )}
             </View>
         </View>
     );
