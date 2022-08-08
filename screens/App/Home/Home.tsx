@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import globalStyles from "../../../constants/Styles";
-import { UserContext } from "../../../contexts/UserContext";
 import View from "../../../components/View/View";
 import { faFacebook, faFacebookMessenger, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import AppList from "../../../components/Apps/AppList/AppList";
@@ -47,14 +46,7 @@ const Home = () => {
                 globalStyles.fsb,
                 globalStyles.f1
             ]}>
-                <AppList
-                    apps={owned}
-                    title='My apps'
-                />
-                <AppList
-                    apps={available}
-                    title='available apps'
-                />
+                {/* TODO */}
             </View>
         </View>
     );

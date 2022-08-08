@@ -64,29 +64,7 @@ const Youtube = () => {
 
     const discovery = async () => {
         try {
-            // await fetch(`${apiBaseUrl}search?part=snippet&maxResults=10&q=songs&type=video${api_key}`)
-            //     .then(res => res.json())
-            //     .then((data: any) => {
-            //         if (data != []) {
-            //             console.log(data);
-            //             let stock: YoutubeSearchVideo[] = [];
-            //             data.items.map((v: any) => {
-            //                 stock.push({
-            //                     id: v.id.videoId,
-            //                     snippet: {
-            //                         ...v.snippet,
-            //                         image: {
-            //                             ...v.snippet.thumbnails
-            //                         }
-            //                     }
-            //                 })
-            //             });
-            //             setVideos(stock);
-            //         } else {
-            //             setVideos([])
-            //         }
-            //     });
-            // setVideos([YoutubeSearchVideoBaseSample])
+            {/* TODO */}
             setVideos([YoutubeSearchVideoBaseSample, YoutubeSearchVideoBaseSample, YoutubeSearchVideoBaseSample, YoutubeSearchVideoBaseSample, YoutubeSearchVideoBaseSample, YoutubeSearchVideoBaseSample, YoutubeSearchVideoBaseSample, YoutubeSearchVideoBaseSample, YoutubeSearchVideoBaseSample])
         } catch (error: any) {
             console.warn(error.message);
